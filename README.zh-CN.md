@@ -5,20 +5,20 @@
 ---
 
 <p align="center">
-    <a href="./README.zh-CN.md">简体中文</a> | English
+    简体中文 | <a href="./README.md">English</a>
 </p>
 
-# SecretFlow Product Documentation
+# 隐语产品文档
 
-This repository tracks source code for some of [SecretFlow](https://github.com/secretflow/secretflow) project's online documentation.
+本仓库保存 [隐语](https://github.com/secretflow/secretflow) 部分在线文档的源代码。
 
-**For a better reading experience, visit [www.secretflow.org.cn/docs](https://www.secretflow.org.cn/docs).**
+**为了更好的阅读体验，请访问 [www.secretflow.org.cn/docs](https://www.secretflow.org.cn/docs)。**
 
-This repository currently contains documentation for the following products:
+本仓库目前包含以下产品的文档：
 
 - [SecretPad all-in-one](./docs/all-in-one/index.rst)
 
-For source code for individual projects, please refer to the following repositories:
+关于其它子项目的文档源代码，请参考以下仓库：
 
 - [heu](https://github.com/secretflow/heu/tree/main/docs)
 - [kuscia](https://github.com/secretflow/kuscia/tree/main/docs)
