@@ -338,7 +338,7 @@ def ss_compare_eval_fn(
     )
 
     # only local fs is supported at this moment.
-    local_fs_wd = ctx.local_fs_wd
+    data_dir = ctx.data_dir
 
     # get spu config from ctx
     if ctx.spu_configs is None or len(ctx.spu_configs) == 0:
