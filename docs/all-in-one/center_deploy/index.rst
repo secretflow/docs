@@ -5,7 +5,7 @@
 .. toctree::
     :maxdepth: 2
 
-    platform_installation_guidelines
+    platform_installation_guidelines_center
     node_installation_guidelines
     cooperation_node
     method1
