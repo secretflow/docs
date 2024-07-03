@@ -1,30 +1,12 @@
-<div align="center">
-    <img src="https://raw.githubusercontent.com/secretflow/secretflow/5fc83d0b82563c49a5be71ce6cd3b0435ad904c1/docs/_static/logo-light.png">
-</div>
-
----
-
-<p align="center">
-    <a href="./README.zh-CN.md">简体中文</a> | English
-</p>
-
-# SecretFlow Product Documentation
-
-This repository tracks source code for some of [SecretFlow](https://github.com/secretflow/secretflow) project's online documentation.
-
-**For a better reading experience, visit [www.secretflow.org.cn/docs](https://www.secretflow.org.cn/docs).**
-
-This repository currently contains documentation for the following products:
-
-- [SecretPad all-in-one](./docs/all-in-one/index.rst)
-
-For source code for individual projects, please refer to the following repositories:
-
-- [heu](https://github.com/secretflow/heu/tree/main/docs)
-- [kuscia](https://github.com/secretflow/kuscia/tree/main/docs)
-- [psi](https://github.com/secretflow/psi/tree/main/docs)
-- [scql](https://github.com/secretflow/scql/tree/main/docs)
-- [secretflow](https://github.com/secretflow/secretflow/tree/main/docs)
-- [secretpad](https://github.com/secretflow/secretpad/tree/main/docs)
-- [spu](https://github.com/secretflow/spu/tree/main/docs)
-- [trustedflow](https://github.com/secretflow/trustedflow/tree/main/docs)
+# 隐语产品文档
+## 简介
+欢迎访问隐语产品文档的GitHub仓库！这个仓库包含了 SecretPad all in one 的文档。通过本仓库，您可以获取到 SecretPad all in one 的安装部署、使用说明等内容。
+## 目录结构
+* 什么是SecretPad all in one：介绍什么是 all in one 包和隐语平台。
+* P2P部署模式：提供中心化架构下的部署指南、使用指南等。
+* 中心化部署模式：提供中心化架构下的部署指南、使用指南等。
+* 平台组件说明：详细介绍平台各个组件的功能、作用、使用方法等。
+* 更多教程：隐语SecretPad平台新增组件，提供自定义组件教程。
+* 相关名词解释：对本文档中出现的专业术语和名词进行定义和解释。
+* 版本更新：记录更新历史和新增功能。
+   
