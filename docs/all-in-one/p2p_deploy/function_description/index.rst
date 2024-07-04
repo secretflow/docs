@@ -7,6 +7,7 @@
 
     workspace
     data
+    data_source
     project
     node
     result
