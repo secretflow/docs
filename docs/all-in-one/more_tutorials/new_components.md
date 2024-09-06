@@ -56,7 +56,7 @@
 - 修改隐语代码
 - 打包隐语镜像
 - 更新隐语SecretPad平台组件列表
-- 在调度框架Kusica中注册新的组件镜像
+- 在调度框架Kuscia中注册新的组件镜像
 
 # 需求描述
 
@@ -98,11 +98,11 @@ bob：
 ![Structure](../imgs/structure.png)
 
 1.Kuscia
-Adapter：将kuscia的数据结构转化为SecretFlow组件数据结构。代码位于：https://github.com/secretflow/secretflow/blob/main/secretflow/kuscia/entry.py。
+Adapter：将kuscia的数据结构转化为SecretFlow组件数据结构。代码位于：https://github.com/secretflow/secretflow/blob/main/secretflow/kuscia/entry.py
 你不需要修改这里。
 
 2.SecretFlow Comp
-Entry：读取SecretFlow组件数据结构，调用对应的组件。代码位于：https://github.com/secretflow/secretflow/blob/main/secretflow/component/entry.py。
+Entry：读取SecretFlow组件数据结构，调用对应的组件。代码位于：https://github.com/secretflow/secretflow/blob/main/secretflow/component/entry.py
 你需要在这里声明组件。
 
 3.SecretFlow
@@ -143,13 +143,13 @@ $ git checkout release/1.5.x
 $ cd secretflow
 ```
 
-注：git clone后，需要切换至已发版的稳定分支（隐语每次正式发版的分支），分支号查看方法如下：
+注：git clone后，需要切换至已发版的稳定分支（隐语每次正式发版的分支），分支号查看方法如下：  
 a、点击https://github.com/secretflow/secretpad/blob/main/README.md#versions 查看你使用的 SecretPad 对应 SecretFlow 版本
 eg：如你使用的是 0.6.0b0 的 SecretPad ，对应 SecretFlow 版本为 1.5.0b0
 ![secretpad_version](../imgs/secretpad_version.png)
 b、点击https://github.com/secretflow/secretflow 查看 SecretFlow 的稳定分支号
 eg：如使用 SecretPad 对应 SecretFlow 版本为 1.5.0b0，则分支号为 release/1.5.x
-![secretflow_release](../imgs/secretflow_release.png)
+![secretflow_release](../imgs/secretflow_release.png) 
 
 3.尝试编译并安装隐语
 
@@ -330,7 +330,7 @@ def ss_compare_eval_fn(
     from secretflow.device.device.pyu import PYU
     from secretflow.device.device.spu import SPU
     from secretflow.device.driver import wait
-    from secretflow.protos.component.data_pb2 import (
+    from secretflow.spec.v1.data_pb2  import (
         DistData,
         IndividualTable,
         TableSchema,
@@ -338,8 +338,9 @@ def ss_compare_eval_fn(
     )
 
     # only local fs is supported at this moment.
-    local_fs_wd = ctx.local_fs_wd
-
+    data_dir = ctx.data_dir
+    #local_fs_wd = ctx.local_fs_wd
+    
     # get spu config from ctx
     if ctx.spu_configs is None or len(ctx.spu_configs) == 0:
         raise CompEvalError("spu config is not found.")
@@ -425,7 +426,7 @@ def ss_compare_eval_fn(
             alice_ids,
             res.partitions[alice].data,
             ['result'],
-            os.path.join(local_fs_wd, alice_output),
+            os.path.join(data_dir, alice_output),
         )
     )
 
@@ -444,7 +445,7 @@ def ss_compare_eval_fn(
             bob_ids,
             res.partitions[bob].data,
             ['result'],
-            os.path.join(local_fs_wd, bob_output),
+            os.path.join(data_dir, bob_output),
         )
     )
 
@@ -462,7 +463,7 @@ def ss_compare_eval_fn(
             features=['result'],
             feature_types=['bool'],
         ),
-        num_lines=-1,
+        line_count=-1,
     )
 
     alice_db.meta.Pack(alice_meta)
@@ -480,7 +481,7 @@ def ss_compare_eval_fn(
             features=['result'],
             feature_types=['bool'],
         ),
-        num_lines=-1,
+        line_count=-1,
     )
 
     bob_db.meta.Pack(bob_meta)
@@ -540,7 +541,7 @@ ALL_COMPONENTS = [
 ```shell
 $ cd docker/
 
-$ pip install requirements.txt
+$ pip install -r requirements.txt
 
 $ env PYTHONPATH=$PYTHONPATH:$PWD/.. python update_meta.py
 Using region  server backend.
@@ -600,7 +601,9 @@ docker image inspect secretflow/sf-dev-anolis8:test_compare
 
 ### 1.1. 获取工具脚本
 
+
 ```shell
+
 # ${USER}: 表示部署secretpad时使用的用户名称，可以通过命令"docker ps"查看secretpad容器名称
 docker cp ${USER}-kuscia-secretpad:/app/scripts/update-sf-components.sh . && chmod +x update-sf-components.sh
 ```
@@ -610,6 +613,10 @@ docker cp ${USER}-kuscia-secretpad:/app/scripts/update-sf-components.sh . && chm
 ```shell
 # -u: 指定 ${USER}。若不指定，则使用系统默认${USER}，通过命令echo ${USER}查看
 # -i: 指定自定义Secretflow组件镜像为 "secretflow/sf-dev-anolis8:test_compare"
+# 中心化部署 
+sed -i 's/SECRETPAD_CONTAINER_NAME="${DEPLOY_USER}-kuscia-secretpad"/SECRETPAD_CONTAINER_NAME="${DEPLOY_USER}-kuscia-master-secretpad"/g' update-sf-components.sh  
+./update-sf-components.sh -u ${USER} -i secretflow/sf-dev-anolis8:test_compare
+# P2P部署
 ./update-sf-components.sh -u ${USER} -i secretflow/sf-dev-anolis8:test_compare
 
 # 查看更多帮助信息
