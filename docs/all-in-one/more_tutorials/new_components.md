@@ -97,28 +97,17 @@ bob：
 
 ![Structure](../imgs/structure.png)
 
-1.Kuscia
-Adapter：将kuscia的数据结构转化为SecretFlow组件数据结构。代码位于：https://github.com/secretflow/secretflow/blob/main/secretflow/kuscia/entry.py
-你不需要修改这里。
+1.Kuscia Adapter：将kuscia的数据结构转化为SecretFlow组件数据结构。代码位于：https://github.com/secretflow/secretflow/blob/main/secretflow/kuscia/entry.py 你不需要修改这里。
 
-2.SecretFlow Comp
-Entry：读取SecretFlow组件数据结构，调用对应的组件。代码位于：https://github.com/secretflow/secretflow/blob/main/secretflow/component/entry.py
-你需要在这里声明组件。
+2.SecretFlow Comp Entry：读取SecretFlow组件数据结构，调用对应的组件。代码位于：https://github.com/secretflow/secretflow/blob/main/secretflow/component/entry.py 你需要在这里声明组件。
 
-3.SecretFlow
-Comps：所有隐语组件。代码位于：https://github.com/secretflow/secretflow/tree/main/secretflow/component。 你需要在这个文件夹下创建你的新组件。
+3.SecretFlow Comps：所有隐语组件。代码位于：https://github.com/secretflow/secretflow/tree/main/secretflow/component 你需要在这个文件夹下创建你的新组件。
 
-4.SecretFlow
-Libraries：隐语API。你可以利用所有隐语现有的各类算法来构造组件。你可以在这个[链接](https://www.secretflow.org.cn/zh-CN/docs/secretflow/v1.4.0b0/user_guide)
-了解隐语的第一方库。你可能需要调整这部分代码。
+4.SecretFlow Libraries：隐语API。你可以利用所有隐语现有的各类算法来构造组件。你可以在这个[链接](https://www.secretflow.org.cn/zh-CN/docs/secretflow/v1.4.0b0/user_guide)了解隐语的第一方库。你可能需要调整这部分代码。
 
-5.SecretFlow Devices:
-隐语设备，隐语将本地明文计算抽象为PYU运算，密态计算抽象为密态设备的运算：SPU（MPC，多方安全计算），HEU（HE，同态加密），TEEU（TEE，可信执行环境），如果你不了解，请阅读这个[文档](https://www.secretflow.org.cn/zh-CN/docs/secretflow/v1.4.0b0/developer/design/architecture)
-。你一般不需要修改这部分代码。
+5.SecretFlow Devices：隐语设备，隐语将本地明文计算抽象为PYU运算，密态计算抽象为密态设备的运算：SPU（MPC，多方安全计算），HEU（HE，同态加密），TEEU（TEE，可信执行环境），如果你不了解，请阅读这个[文档](https://www.secretflow.org.cn/zh-CN/docs/secretflow/v1.4.0b0/developer/design/architecture)。你一般不需要修改这部分代码。
 
-6.Ray/RayFed。[Ray](https://www.ray.io)
-是隐语的底座，负责在一个kuscia拉起的隐语节点中调度资源，每一个计算参与方都是一个Ray集群。[RayFed](https://rayfed.readthedocs.io/en/latest)
-负责Ray集群之间的通信和协调。
+6.Ray/RayFed：[Ray](https://www.ray.io)是隐语的底座，负责在一个kuscia拉起的隐语节点中调度资源，每一个计算参与方都是一个Ray集群。[RayFed](https://rayfed.readthedocs.io/en/latest)负责Ray集群之间的通信和协调。
 
 ## 开发环境
 
@@ -132,22 +121,21 @@ Libraries：隐语API。你可以利用所有隐语现有的各类算法来构�
 - bazel==5.4.1
 - golang
 
-你可以参考[release-ci.DockerFile](https://github.com/secretflow/devtools/blob/main/dockerfiles/release-ci.DockerFile)
-来配置你的环境。
+你可以参考[release-ci.DockerFile](https://github.com/secretflow/devtools/blob/main/dockerfiles/release-ci.DockerFile)来配置你的环境。
 
 2.当你配置好环境之后，请拉取代码
 
 ```shell
 $ git clone https://github.com/secretflow/secretflow.git
-$ git checkout release/1.5.x
+$ git checkout release/1.9.x
 $ cd secretflow
 ```
 
 注：git clone后，需要切换至已发版的稳定分支（隐语每次正式发版的分支），分支号查看方法如下：  
-a、点击https://github.com/secretflow/secretpad/blob/main/README.md#versions 查看你使用的 SecretPad 对应 SecretFlow 版本
+a、点击https://github.com/secretflow/secretpad/blob/main/README.md#versions 查看你使用的 SecretPad 对应 SecretFlow 版本  
 eg：如你使用的是 0.6.0b0 的 SecretPad ，对应 SecretFlow 版本为 1.5.0b0
-![secretpad_version](../imgs/secretpad_version.png)
-b、点击https://github.com/secretflow/secretflow 查看 SecretFlow 的稳定分支号
+![secretpad_version](../imgs/secretpad_version.png)  
+b、点击https://github.com/secretflow/secretflow 查看 SecretFlow 的稳定分支号  
 eg：如使用 SecretPad 对应 SecretFlow 版本为 1.5.0b0，则分支号为 release/1.5.x
 ![secretflow_release](../imgs/secretflow_release.png) 
 
@@ -593,7 +581,7 @@ docker image inspect secretflow/sf-dev-anolis8:test_compare
 
 # 注册隐语镜像
 
-在注册隐语镜像前，需保证已部署隐语SecretPad平台和调度框架Kuscia节点。具体部署教程，请参考[中心化组网模式部署Kuscia和平台](https://www.secretflow.org.cn/docs/kuscia/latest/zh-Hans/getting_started/quickstart_cn)
+在注册隐语镜像前，需保证已部署隐语SecretPad平台和调度框架Kuscia节点。
 
 ## 1.更新隐语SecretPad平台组件列表
 
@@ -625,15 +613,13 @@ sed -i 's/SECRETPAD_CONTAINER_NAME="${DEPLOY_USER}-kuscia-secretpad"/SECRETPAD_C
 
 ## 2. 在Kuscia中注册自定义算法镜像
 
-有关将自定义Secretflow组件镜像注册到Kuscia ，请参考
-[注册自定义算法镜像](https://www.secretflow.org.cn/docs/kuscia/latest/zh-Hans/development/register_custom_image)
+有关将自定义Secretflow组件镜像注册到Kuscia ，请参考[注册自定义算法镜像](https://www.secretflow.org.cn/docs/kuscia/latest/zh-Hans/development/register_custom_image)
 
 ⚠️**注意事项**
 
-- 使用 <font color=#E83E8C> -n secretflow-image </font> 指定注册在Kuscia中的算法镜像AppImage名称为 <font color=#E83E8C>
+- 使用 <span style="color: #E83E8C;"> -n secretflow-image </span> 指定注册在Kuscia中的算法镜像AppImage名称为 <font color=#E83E8C>
   secretflow-image </font>。
-- 使用 <font color=#E83E8C> -i docker.io/secretflow/sf-dev-anolis8:
-  test_compare </font> 指定打包的自定义Secretflow组件镜像。由于默认打包的镜像Repo为docker.io，因此在导入镜像时需填写完成的镜像信息。
+- 使用 <span style="color: #E83E8C;"> -i docker.io/secretflow/sf-dev-anolis8: test_compare </span> 指定打包的自定义Secretflow组件镜像。由于默认打包的镜像Repo为 docker.io，因此在导入镜像时需填写完成的镜像信息。
 
 ```shell
 # -u: 指定 ${USER}
