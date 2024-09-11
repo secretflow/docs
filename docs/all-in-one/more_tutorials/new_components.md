@@ -166,7 +166,7 @@ $ pip uninstall secretflow
 
 ### 新建文件
 
-在 <font color=#E83E8C> secretflow/component/ </font> 文件夹下新建文件 <font color=#E83E8C> compare.py </font>
+在 <span style="color: #E83E8C;"> secretflow/component/ </span> 文件夹下新建文件 <span style="color: #E83E8C;"> compare.py </span>
 
 ```shell
 $ cd secretflow/component/
@@ -195,10 +195,10 @@ ss_compare_comp = Component(
 
 这段代码表明了：
 
-- 组件名称：<font color=#E83E8C> ss_compare </font>
-- domain: <font color=#E83E8C> user </font>,可以理解为命名空间/分类
-- version: <font color=#E83E8C> 0.0.1 </font>
-- desc: <font color=#E83E8C> compare two tables. </font> 组件描述。
+- 组件名称：<span style="color: #E83E8C;"> ss_compare </span>
+- domain: <span style="color: #E83E8C;"> user </span>,可以理解为命名空间/分类
+- version: <span style="color: #E83E8C;"> 0.0.1 </span>
+- desc: <span style="color: #E83E8C;"> compare two tables. </span> 组件描述。
 
 ### 定义组件参数
 
@@ -216,7 +216,7 @@ ss_compare_comp.int_attr(
 )
 ```
 
-在这里，我们为 <font color=#E83E8C> ss_compare </font> 定义了一个参数 <font color=#E83E8C> tolerance </font>
+在这里，我们为 <span style="color: #E83E8C;"> ss_compare </span> 定义了一个参数 <span style="color: #E83E8C;"> tolerance </span>
 ,为了一定程度上保护两位富翁的隐私，我们可以认为在一定范围的区别可以认为是相等的。
 
 <font color=#E83E8C> int_attr </font> 代表了 <font color=#E83E8C> tolerance </font> 是一个integer参数。
@@ -232,7 +232,7 @@ ss_compare_comp.int_attr(
 - upper_bound：上限。这里是None，代表了没有上限。
 
 组件还可以设置其他类型的参数，请参阅：
-https://github.com/secretflow/secretflow/blob/main/secretflow/component/component.py#L132-L556
+https://github.com/secretflow/secretflow/blob/main/secretflow/component/component.py#L256-L719
 
 ### 定义输入输出
 
@@ -274,8 +274,7 @@ ss_compare_comp.io(
 )
 ```
 
-我们在这里定义了两个输出：<font color=#E83E8C> alice_outputbob_output </font> 和一个输入 <font color=#E83E8C>
-input_table </font>
+我们在这里定义了两个输出：<span style="color: #E83E8C;"> alice_out put/bob_output </span> 和一个输入 <span style="color: #E83E8C;">input_table </span>
 
 输入和输出的定义是类似的：
 
@@ -286,7 +285,7 @@ input_table </font>
     - INDIVIDUAL_TABLE：单方表。
     - VERTICAL_TABLE：垂直切分表，联合表。
 
-可以看到nput参数还包含col_params，它是一个TableColParam 列表。每一个TableColParam表示用户需要在表中选择一些cols：
+可以看到input参数还包含col_params，它是一个TableColParam 列表。每一个TableColParam表示用户需要在表中选择一些cols：
 
 - name：cols的名称。这里我们填写了alice_value, 意思是我们需要用户选择一些col作为alice_value列。
 - desc：描述。
@@ -477,10 +476,10 @@ def ss_compare_eval_fn(
     return {"alice_output": alice_db, "bob_output": bob_db}
 ```
 
-1.组件执行函数使用decorator <font color=#E83E8C> @ss_compare_comp.eval_fn </font> 修饰
+1.组件执行函数使用decorator <span style="color: #E83E8C;"> @ss_compare_comp.eval_fn </span> 修饰
 
-2.组件执行函数的signature必须为 <font color=#E83E8C> fn(*,ctx,attr1, attr2, attr3, io1, io1_col1, io1_col2,..., io3,..,
-ioN) </font> :
+2.组件执行函数的signature必须为 <span style="color: #E83E8C;"> fn(*,ctx,attr1, attr2, attr3, io1, io1_col1, io1_col2,..., io3,..,
+ioN) </span> :
 
     1.attr1, attr2, attr3指的是组件的attribute的值
 
@@ -555,7 +554,7 @@ $ git diff translation.json
 
 ![Check_Translation](../imgs/check_translation.png)
 
-请注意脚本目前是利用公开的翻译API进行处理的，如果有不合理的地方，请自行修改 <font color=#E83E8C> translation.json </font>
+请注意脚本目前是利用公开的翻译API进行处理的，如果有不合理的地方，请自行修改 <span style="color: #E83E8C;"> translation.json </span>
 
 ## 打包镜像
 
@@ -617,8 +616,8 @@ sed -i 's/SECRETPAD_CONTAINER_NAME="${DEPLOY_USER}-kuscia-secretpad"/SECRETPAD_C
 
 ⚠️**注意事项**
 
-- 使用 <span style="color: #E83E8C;"> -n secretflow-image </span> 指定注册在Kuscia中的算法镜像AppImage名称为 <font color=#E83E8C>
-  secretflow-image </font>。
+- 使用 <span style="color: #E83E8C;"> -n secretflow-image </span> 指定注册在Kuscia中的算法镜像AppImage名称为 <span style="color: #E83E8C;">
+  secretflow-image </span>。
 - 使用 <span style="color: #E83E8C;"> -i docker.io/secretflow/sf-dev-anolis8: test_compare </span> 指定打包的自定义Secretflow组件镜像。由于默认打包的镜像Repo为 docker.io，因此在导入镜像时需填写完成的镜像信息。
 
 ```shell
