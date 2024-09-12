@@ -11,3 +11,4 @@ All in one 文档
     ./more_tutorials/index
     definition.md
     ./version_update/index
+    history_download

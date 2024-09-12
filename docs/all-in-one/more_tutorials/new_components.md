@@ -56,7 +56,7 @@
 - 修改隐语代码
 - 打包隐语镜像
 - 更新隐语SecretPad平台组件列表
-- 在调度框架Kusica中注册新的组件镜像
+- 在调度框架Kuscia中注册新的组件镜像
 
 # 需求描述
 
@@ -97,28 +97,17 @@ bob：
 
 ![Structure](../imgs/structure.png)
 
-1.Kuscia
-Adapter：将kuscia的数据结构转化为SecretFlow组件数据结构。代码位于：https://github.com/secretflow/secretflow/blob/main/secretflow/kuscia/entry.py。
-你不需要修改这里。
+1.Kuscia Adapter：将kuscia的数据结构转化为SecretFlow组件数据结构。代码位于：https://github.com/secretflow/secretflow/blob/main/secretflow/kuscia/entry.py 你不需要修改这里。
 
-2.SecretFlow Comp
-Entry：读取SecretFlow组件数据结构，调用对应的组件。代码位于：https://github.com/secretflow/secretflow/blob/main/secretflow/component/entry.py。
-你需要在这里声明组件。
+2.SecretFlow Comp Entry：读取SecretFlow组件数据结构，调用对应的组件。代码位于：https://github.com/secretflow/secretflow/blob/main/secretflow/component/entry.py 你需要在这里声明组件。
 
-3.SecretFlow
-Comps：所有隐语组件。代码位于：https://github.com/secretflow/secretflow/tree/main/secretflow/component。 你需要在这个文件夹下创建你的新组件。
+3.SecretFlow Comps：所有隐语组件。代码位于：https://github.com/secretflow/secretflow/tree/main/secretflow/component 你需要在这个文件夹下创建你的新组件。
 
-4.SecretFlow
-Libraries：隐语API。你可以利用所有隐语现有的各类算法来构造组件。你可以在这个[链接](https://www.secretflow.org.cn/zh-CN/docs/secretflow/v1.4.0b0/user_guide)
-了解隐语的第一方库。你可能需要调整这部分代码。
+4.SecretFlow Libraries：隐语API。你可以利用所有隐语现有的各类算法来构造组件。你可以在这个[链接](https://www.secretflow.org.cn/zh-CN/docs/secretflow/v1.4.0b0/user_guide)了解隐语的第一方库。你可能需要调整这部分代码。
 
-5.SecretFlow Devices:
-隐语设备，隐语将本地明文计算抽象为PYU运算，密态计算抽象为密态设备的运算：SPU（MPC，多方安全计算），HEU（HE，同态加密），TEEU（TEE，可信执行环境），如果你不了解，请阅读这个[文档](https://www.secretflow.org.cn/zh-CN/docs/secretflow/v1.4.0b0/developer/design/architecture)
-。你一般不需要修改这部分代码。
+5.SecretFlow Devices：隐语设备，隐语将本地明文计算抽象为PYU运算，密态计算抽象为密态设备的运算：SPU（MPC，多方安全计算），HEU（HE，同态加密），TEEU（TEE，可信执行环境），如果你不了解，请阅读这个[文档](https://www.secretflow.org.cn/zh-CN/docs/secretflow/v1.4.0b0/developer/design/architecture)。你一般不需要修改这部分代码。
 
-6.Ray/RayFed。[Ray](https://www.ray.io)
-是隐语的底座，负责在一个kuscia拉起的隐语节点中调度资源，每一个计算参与方都是一个Ray集群。[RayFed](https://rayfed.readthedocs.io/en/latest)
-负责Ray集群之间的通信和协调。
+6.Ray/RayFed：[Ray](https://www.ray.io)是隐语的底座，负责在一个kuscia拉起的隐语节点中调度资源，每一个计算参与方都是一个Ray集群。[RayFed](https://rayfed.readthedocs.io/en/latest)负责Ray集群之间的通信和协调。
 
 ## 开发环境
 
@@ -132,24 +121,23 @@ Libraries：隐语API。你可以利用所有隐语现有的各类算法来构�
 - bazel==5.4.1
 - golang
 
-你可以参考[release-ci.DockerFile](https://github.com/secretflow/devtools/blob/main/dockerfiles/release-ci.DockerFile)
-来配置你的环境。
+你可以参考[release-ci.DockerFile](https://github.com/secretflow/devtools/blob/main/dockerfiles/release-ci.DockerFile)来配置你的环境。
 
 2.当你配置好环境之后，请拉取代码
 
 ```shell
 $ git clone https://github.com/secretflow/secretflow.git
-$ git checkout release/1.5.x
+$ git checkout release/1.9.x
 $ cd secretflow
 ```
 
-注：git clone后，需要切换至已发版的稳定分支（隐语每次正式发版的分支），分支号查看方法如下：
-a、点击https://github.com/secretflow/secretpad/blob/main/README.md#versions 查看你使用的 SecretPad 对应 SecretFlow 版本
+注：git clone后，需要切换至已发版的稳定分支（隐语每次正式发版的分支），分支号查看方法如下：  
+a、点击https://github.com/secretflow/secretpad/blob/main/README.md#versions 查看你使用的 SecretPad 对应 SecretFlow 版本  
 eg：如你使用的是 0.6.0b0 的 SecretPad ，对应 SecretFlow 版本为 1.5.0b0
-![secretpad_version](../imgs/secretpad_version.png)
-b、点击https://github.com/secretflow/secretflow 查看 SecretFlow 的稳定分支号
+![secretpad_version](../imgs/secretpad_version.png)  
+b、点击https://github.com/secretflow/secretflow 查看 SecretFlow 的稳定分支号  
 eg：如使用 SecretPad 对应 SecretFlow 版本为 1.5.0b0，则分支号为 release/1.5.x
-![secretflow_release](../imgs/secretflow_release.png)
+![secretflow_release](../imgs/secretflow_release.png) 
 
 3.尝试编译并安装隐语
 
@@ -178,7 +166,7 @@ $ pip uninstall secretflow
 
 ### 新建文件
 
-在 <font color=#E83E8C> secretflow/component/ </font> 文件夹下新建文件 <font color=#E83E8C> compare.py </font>
+在 <span style="color: #E83E8C;"> secretflow/component/ </span> 文件夹下新建文件 <span style="color: #E83E8C;"> compare.py </span>
 
 ```shell
 $ cd secretflow/component/
@@ -207,10 +195,10 @@ ss_compare_comp = Component(
 
 这段代码表明了：
 
-- 组件名称：<font color=#E83E8C> ss_compare </font>
-- domain: <font color=#E83E8C> user </font>,可以理解为命名空间/分类
-- version: <font color=#E83E8C> 0.0.1 </font>
-- desc: <font color=#E83E8C> compare two tables. </font> 组件描述。
+- 组件名称：<span style="color: #E83E8C;"> ss_compare </span>
+- domain: <span style="color: #E83E8C;"> user </span>,可以理解为命名空间/分类
+- version: <span style="color: #E83E8C;"> 0.0.1 </span>
+- desc: <span style="color: #E83E8C;"> compare two tables. </span> 组件描述。
 
 ### 定义组件参数
 
@@ -228,7 +216,7 @@ ss_compare_comp.int_attr(
 )
 ```
 
-在这里，我们为 <font color=#E83E8C> ss_compare </font> 定义了一个参数 <font color=#E83E8C> tolerance </font>
+在这里，我们为 <span style="color: #E83E8C;"> ss_compare </span> 定义了一个参数 <span style="color: #E83E8C;"> tolerance </span>
 ,为了一定程度上保护两位富翁的隐私，我们可以认为在一定范围的区别可以认为是相等的。
 
 <font color=#E83E8C> int_attr </font> 代表了 <font color=#E83E8C> tolerance </font> 是一个integer参数。
@@ -244,7 +232,7 @@ ss_compare_comp.int_attr(
 - upper_bound：上限。这里是None，代表了没有上限。
 
 组件还可以设置其他类型的参数，请参阅：
-https://github.com/secretflow/secretflow/blob/main/secretflow/component/component.py#L132-L556
+https://github.com/secretflow/secretflow/blob/main/secretflow/component/component.py#L256-L719
 
 ### 定义输入输出
 
@@ -286,8 +274,7 @@ ss_compare_comp.io(
 )
 ```
 
-我们在这里定义了两个输出：<font color=#E83E8C> alice_outputbob_output </font> 和一个输入 <font color=#E83E8C>
-input_table </font>
+我们在这里定义了两个输出：<span style="color: #E83E8C;"> alice_out put/bob_output </span> 和一个输入 <span style="color: #E83E8C;">input_table</span>
 
 输入和输出的定义是类似的：
 
@@ -298,7 +285,7 @@ input_table </font>
     - INDIVIDUAL_TABLE：单方表。
     - VERTICAL_TABLE：垂直切分表，联合表。
 
-可以看到nput参数还包含col_params，它是一个TableColParam 列表。每一个TableColParam表示用户需要在表中选择一些cols：
+可以看到input参数还包含col_params，它是一个TableColParam 列表。每一个TableColParam表示用户需要在表中选择一些cols：
 
 - name：cols的名称。这里我们填写了alice_value, 意思是我们需要用户选择一些col作为alice_value列。
 - desc：描述。
@@ -330,7 +317,7 @@ def ss_compare_eval_fn(
     from secretflow.device.device.pyu import PYU
     from secretflow.device.device.spu import SPU
     from secretflow.device.driver import wait
-    from secretflow.protos.component.data_pb2 import (
+    from secretflow.spec.v1.data_pb2  import (
         DistData,
         IndividualTable,
         TableSchema,
@@ -338,8 +325,9 @@ def ss_compare_eval_fn(
     )
 
     # only local fs is supported at this moment.
-    local_fs_wd = ctx.local_fs_wd
-
+    data_dir = ctx.data_dir
+    #local_fs_wd = ctx.local_fs_wd
+    
     # get spu config from ctx
     if ctx.spu_configs is None or len(ctx.spu_configs) == 0:
         raise CompEvalError("spu config is not found.")
@@ -425,7 +413,7 @@ def ss_compare_eval_fn(
             alice_ids,
             res.partitions[alice].data,
             ['result'],
-            os.path.join(local_fs_wd, alice_output),
+            os.path.join(data_dir, alice_output),
         )
     )
 
@@ -444,7 +432,7 @@ def ss_compare_eval_fn(
             bob_ids,
             res.partitions[bob].data,
             ['result'],
-            os.path.join(local_fs_wd, bob_output),
+            os.path.join(data_dir, bob_output),
         )
     )
 
@@ -462,7 +450,7 @@ def ss_compare_eval_fn(
             features=['result'],
             feature_types=['bool'],
         ),
-        num_lines=-1,
+        line_count=-1,
     )
 
     alice_db.meta.Pack(alice_meta)
@@ -480,7 +468,7 @@ def ss_compare_eval_fn(
             features=['result'],
             feature_types=['bool'],
         ),
-        num_lines=-1,
+        line_count=-1,
     )
 
     bob_db.meta.Pack(bob_meta)
@@ -488,10 +476,10 @@ def ss_compare_eval_fn(
     return {"alice_output": alice_db, "bob_output": bob_db}
 ```
 
-1.组件执行函数使用decorator <font color=#E83E8C> @ss_compare_comp.eval_fn </font> 修饰
+1.组件执行函数使用decorator <span style="color: #E83E8C;"> @ss_compare_comp.eval_fn </span> 修饰
 
-2.组件执行函数的signature必须为 <font color=#E83E8C> fn(*,ctx,attr1, attr2, attr3, io1, io1_col1, io1_col2,..., io3,..,
-ioN) </font> :
+2.组件执行函数的signature必须为 <span style="color: #E83E8C;"> fn(*,ctx,attr1, attr2, attr3, io1, io1_col1, io1_col2,..., io3,..,
+ioN) </span> :
 
     1.attr1, attr2, attr3指的是组件的attribute的值
 
@@ -540,7 +528,7 @@ ALL_COMPONENTS = [
 ```shell
 $ cd docker/
 
-$ pip install requirements.txt
+$ pip install -r requirements.txt
 
 $ env PYTHONPATH=$PYTHONPATH:$PWD/.. python update_meta.py
 Using region  server backend.
@@ -566,7 +554,7 @@ $ git diff translation.json
 
 ![Check_Translation](../imgs/check_translation.png)
 
-请注意脚本目前是利用公开的翻译API进行处理的，如果有不合理的地方，请自行修改 <font color=#E83E8C> translation.json </font>
+请注意脚本目前是利用公开的翻译API进行处理的，如果有不合理的地方，请自行修改 <span style="color: #E83E8C;"> translation.json </span>
 
 ## 打包镜像
 
@@ -592,7 +580,7 @@ docker image inspect secretflow/sf-dev-anolis8:test_compare
 
 # 注册隐语镜像
 
-在注册隐语镜像前，需保证已部署隐语SecretPad平台和调度框架Kuscia节点。具体部署教程，请参考[中心化组网模式部署Kuscia和平台](https://www.secretflow.org.cn/docs/kuscia/latest/zh-Hans/getting_started/quickstart_cn)
+在注册隐语镜像前，需保证已部署隐语SecretPad平台和调度框架Kuscia节点。
 
 ## 1.更新隐语SecretPad平台组件列表
 
@@ -600,7 +588,9 @@ docker image inspect secretflow/sf-dev-anolis8:test_compare
 
 ### 1.1. 获取工具脚本
 
+
 ```shell
+
 # ${USER}: 表示部署secretpad时使用的用户名称，可以通过命令"docker ps"查看secretpad容器名称
 docker cp ${USER}-kuscia-secretpad:/app/scripts/update-sf-components.sh . && chmod +x update-sf-components.sh
 ```
@@ -610,6 +600,10 @@ docker cp ${USER}-kuscia-secretpad:/app/scripts/update-sf-components.sh . && chm
 ```shell
 # -u: 指定 ${USER}。若不指定，则使用系统默认${USER}，通过命令echo ${USER}查看
 # -i: 指定自定义Secretflow组件镜像为 "secretflow/sf-dev-anolis8:test_compare"
+# 中心化部署 
+sed -i 's/SECRETPAD_CONTAINER_NAME="${DEPLOY_USER}-kuscia-secretpad"/SECRETPAD_CONTAINER_NAME="${DEPLOY_USER}-kuscia-master-secretpad"/g' update-sf-components.sh  
+./update-sf-components.sh -u ${USER} -i secretflow/sf-dev-anolis8:test_compare
+# P2P部署
 ./update-sf-components.sh -u ${USER} -i secretflow/sf-dev-anolis8:test_compare
 
 # 查看更多帮助信息
@@ -618,15 +612,13 @@ docker cp ${USER}-kuscia-secretpad:/app/scripts/update-sf-components.sh . && chm
 
 ## 2. 在Kuscia中注册自定义算法镜像
 
-有关将自定义Secretflow组件镜像注册到Kuscia ，请参考
-[注册自定义算法镜像](https://www.secretflow.org.cn/docs/kuscia/latest/zh-Hans/development/register_custom_image)
+有关将自定义Secretflow组件镜像注册到Kuscia ，请参考[注册自定义算法镜像](https://www.secretflow.org.cn/docs/kuscia/latest/zh-Hans/development/register_custom_image)
 
 ⚠️**注意事项**
 
-- 使用 <font color=#E83E8C> -n secretflow-image </font> 指定注册在Kuscia中的算法镜像AppImage名称为 <font color=#E83E8C>
-  secretflow-image </font>。
-- 使用 <font color=#E83E8C> -i docker.io/secretflow/sf-dev-anolis8:
-  test_compare </font> 指定打包的自定义Secretflow组件镜像。由于默认打包的镜像Repo为docker.io，因此在导入镜像时需填写完成的镜像信息。
+- 使用 <span style="color: #E83E8C;"> -n secretflow-image </span> 指定注册在Kuscia中的算法镜像AppImage名称为 <span style="color: #E83E8C;">
+  secretflow-image </span>。
+- 使用 <span style="color: #E83E8C;"> -i docker.io/secretflow/sf-dev-anolis8: test_compare </span> 指定打包的自定义Secretflow组件镜像。由于默认打包的镜像Repo为 docker.io，因此在导入镜像时需填写完成的镜像信息。
 
 ```shell
 # -u: 指定 ${USER}
