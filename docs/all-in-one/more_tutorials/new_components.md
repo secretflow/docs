@@ -274,7 +274,7 @@ ss_compare_comp.io(
 )
 ```
 
-我们在这里定义了两个输出：<span style="color: #E83E8C;"> alice_out put/bob_output </span> 和一个输入 <span style="color: #E83E8C;">input_table </span>
+我们在这里定义了两个输出：<span style="color: #E83E8C;"> alice_out put/bob_output </span> 和一个输入 <span style="color: #E83E8C;">input_table</span>
 
 输入和输出的定义是类似的：
 
