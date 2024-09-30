@@ -5,10 +5,11 @@
 .. toctree::
     :maxdepth: 2
 
+    organization
     workspace
-    data
-    data_source
-    project
     node
+    data_source
+    data
+    project
     result
     message

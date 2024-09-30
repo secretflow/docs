@@ -6,8 +6,8 @@
     :maxdepth: 2
 
     platform_installation_guidelines_center
-    node_installation_guidelines
     cooperation_node
+    node_installation_guidelines
     method1
     model_deployment
     method2
