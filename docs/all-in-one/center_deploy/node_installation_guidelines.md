@@ -33,7 +33,7 @@ mac的命令：
 
 ```shell
 cd 部署包所在路径
-bash install.sh lite -n alice -m 'http://root-kuscia-master:1080' -t xdeploy-tokenx -p 10080  -k 41802 -g 41803 -s 8180 -q 13181 -P notls
+bash install.sh lite -n alice -m 'https://root-kuscia-master:1080' -t xdeploy-tokenx -p 10080  -k 41802 -g 41803 -s 8180 -q 13181 -P notls
 ```
 
 ![Node_step4](../imgs/node_step4.png)
@@ -42,7 +42,7 @@ WSL的命令：
 
 ```shell
 cd 部署包所在路径
-bash install.sh lite -n alice -m 'http://root-kuscia-master:1080' -t xdeploy-tokenx -p 10080  -k 41802 -g 41803 -s 8180 -q 13181 -P notls
+bash install.sh lite -n alice -m 'https://root-kuscia-master:1080' -t xdeploy-tokenx -p 10080  -k 41802 -g 41803 -s 8180 -q 13181 -P notls
 ```
 端口示例：
 ```

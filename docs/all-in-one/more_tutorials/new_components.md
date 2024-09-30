@@ -274,7 +274,7 @@ ss_compare_comp.io(
 )
 ```
 
-我们在这里定义了两个输出：<span style="color: #E83E8C;"> alice_out put/bob_output </span> 和一个输入 <span style="color: #E83E8C;">input_table</span>
+我们在这里定义了两个输出：<span style="color: #E83E8C;"> alice_out put/bob_output </span> 和一个输入 <span style="color: #E83E8C;">input_table </span>
 
 输入和输出的定义是类似的：
 
@@ -489,8 +489,7 @@ ioN) </span> :
 
 ## 注册组件
 
-在[https://github.com/secretflow/secretflow/blob/main/secretflow/component/entry.py](https://github.com/secretflow/secretflow/blob/main/secretflow/component/entry.py)
-**ALL_COMPONENTS** 注册组件(加入你的新组件)
+在<a href="https://github.com/secretflow/secretflow/blob/main/secretflow/component/entry.py"><b>ALL_COMPONENTS</b></a> 注册组件(加入你的新组件)
 
 ```shell
 from secretflow.component.compare import ss_compare_comp
