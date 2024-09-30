@@ -32,7 +32,7 @@
 
 ![Step3.2](../imgs/model_deployment6.png)
 
-点击确定后，模型即可发布成功，可查看模型，并使用模型ID和endpoints构建特征服务API，详见：https://www.secretflow.org.cn/zh-CN/docs/kuscia/v0.6.0b0/tutorial/run_sf_serving_with_api_cn#id5
+点击确定后，模型即可发布成功，可查看模型，并使用模型ID和endpoints构建特征服务API，详见：https://www.secretflow.org.cn/zh-CN/docs/kuscia/v0.6.0b0/tutorial/run_sf_serving_with_api_cn
 
 ![Step3.3](../imgs/model_deployment7.png)
 
