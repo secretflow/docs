@@ -115,11 +115,11 @@ bob：
 
 - gcc>=11.2
 - cmake>=3.18
-- ninja
+- ninja 不限版本
 - nasm>=2.15
-- python==3.8
+- python==3.10
 - bazel==5.4.1
-- golang
+- golang>=1.22
 
 你可以参考[release-ci.DockerFile](https://github.com/secretflow/devtools/blob/main/dockerfiles/release-ci.DockerFile)来配置你的环境。
 
