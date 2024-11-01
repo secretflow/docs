@@ -1,9 +1,9 @@
 # 什么是 SecretPad All In One
 
 SecretPad all in one 包是隐语平台部署包，可快速部署成隐语平台。目前隐语提供了基于 x86 和基于 arm 芯片的安装包，其中 arm 的安装包暂未集成 TrustedFlow。  
-![allinone_x86](./imgs/download_image.png)[点此下载 x86_64 安装包](https://secretflow-public.oss-cn-hangzhou.aliyuncs.com/mvp-packages/secretflow-allinone-linux-x86_64-v1.9.0.tar.gz)
+![allinone_x86](./imgs/download_image.png)[点此下载 x86_64 安装包](https://secretflow-public.oss-cn-hangzhou.aliyuncs.com/mvp-packages/secretflow-allinone-linux-x86_64-v1.10.0.tar.gz)
 
-![allinone_arm](./imgs/download_image.png)[点此下载 arm_64安装包](https://secretflow-public.oss-cn-hangzhou.aliyuncs.com/mvp-packages/secretflow-allinone-linux-aarch_64-v1.9.0.tar.gz)  
+![allinone_arm](./imgs/download_image.png)[点此下载 arm_64安装包](https://secretflow-public.oss-cn-hangzhou.aliyuncs.com/mvp-packages/secretflow-allinone-linux-aarch_64-v1.10.0.tar.gz)  
 如果您需要下载历史版本[请点击](history_download.md)  
 
 all in one 包最大的特色是提供了从算法到调度，到平台页面的一整套系统，可视化操作平台是最大的特点。根据业务本身要求不同，隐语提供中心化模式和 p2p 模式的安装部署能力。在部署安装包的时候，可选择不同的部署模式，如部署成 P2P 的模式（无需可信第三方，无 Center 平台）或者中心化的模式（有 Center 平台）。安装部署完成后，可在隐语平台快速体验隐语核心能力。

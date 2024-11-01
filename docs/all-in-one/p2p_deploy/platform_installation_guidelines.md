@@ -8,7 +8,7 @@
 
 资源：8core/16G Memory/200G Hard disk
 
-Docker：推荐使用 20.10 或更高版本
+Docker：推荐使用 20.10.24 或更高版本
 
 ## 1.2. Docker安装与配置
 
