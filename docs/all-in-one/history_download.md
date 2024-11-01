@@ -9,3 +9,6 @@
 ## v1.8.0
 [点此下载 x86_64 安装包](https://secretflow-public.oss-cn-hangzhou.aliyuncs.com/mvp-packages/secretflow-allinone-linux-x86_64-v1.8.0.tar.gz)  
 [点此下载 arm_64 安装包](https://secretflow-public.oss-cn-hangzhou.aliyuncs.com/mvp-packages/secretflow-allinone-linux-aarch_64-v1.8.0.tar.gz)
+## v1.9.0
+[点此下载 x86_64 安装包](https://secretflow-public.oss-cn-hangzhou.aliyuncs.com/mvp-packages/secretflow-allinone-linux-x86_64-v1.9.0.tar.gz)  
+[点此下载 arm_64 安装包](https://secretflow-public.oss-cn-hangzhou.aliyuncs.com/mvp-packages/secretflow-allinone-linux-aarch_64-v1.9.0.tar.gz)
