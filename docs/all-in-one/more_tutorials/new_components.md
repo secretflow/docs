@@ -311,7 +311,9 @@ def ss_compare_eval_fn(
     from secretflow.component.component import CompEvalError
     from secretflow.component.data_utils import (
         DistDataType,
-        load_table,
+    )
+    from secretflow.component.dataframe import (
+        CompDataFrame,
     )
     from secretflow.data import FedNdarray, PartitionWay
     from secretflow.device.device.pyu import PYU
@@ -327,7 +329,7 @@ def ss_compare_eval_fn(
     # only local fs is supported at this moment.
     data_dir = ctx.data_dir
     #local_fs_wd = ctx.local_fs_wd
-    
+
     # get spu config from ctx
     if ctx.spu_configs is None or len(ctx.spu_configs) == 0:
         raise CompEvalError("spu config is not found.")
@@ -355,14 +357,14 @@ def ss_compare_eval_fn(
     bob = PYU(bob_party)
     spu = SPU(spu_config["cluster_def"], spu_config["link_desc"])
 
-    input_df = load_table(
+    input_df = CompDataFrame.from_distdata(
         ctx,
         input_table,
+        load_labels=True,
         load_features=True,
         load_ids=True,
-        load_labels=True,
         col_selects=input_table_alice_value + input_table_bob_value,
-    )
+    ).to_pandas(check_null=False)
 
     # pass inputs from alice and bob PYUs to SPU
     alice_input_spu_object = input_df.partitions[alice].data.to(spu)
@@ -398,14 +400,15 @@ def ss_compare_eval_fn(
 
         x.to_csv(path, index=False)
 
-    alice_id_df = load_table(
+
+    alice_id_df = CompDataFrame.from_distdata(
         ctx,
         input_table,
+        load_labels=False,
         load_features=False,
         load_ids=True,
-        load_labels=False,
         col_selects=alice_ids,
-    )
+    ).to_pandas(check_null=False)
 
     wait(
         alice(save)(
@@ -417,14 +420,14 @@ def ss_compare_eval_fn(
         )
     )
 
-    bob_id_df = load_table(
+    bob_id_df = CompDataFrame.from_distdata(
         ctx,
         input_table,
+        load_labels=False,
         load_features=False,
         load_ids=True,
-        load_labels=False,
         col_selects=bob_ids,
-    )
+    ).to_pandas(check_null=False)
 
     wait(
         bob(save)(
@@ -590,8 +593,8 @@ docker image inspect secretflow/sf-dev-anolis8:test_compare
 
 ```shell
 
-# ${USER}: 表示部署secretpad时使用的用户名称，可以通过命令"docker ps"查看secretpad容器名称
-docker cp ${USER}-kuscia-secretpad:/app/scripts/update-sf-components.sh . && chmod +x update-sf-components.sh
+#获取脚本（'pad容器id'替换为真实pad容器id）
+docker cp pad容器id:/app/scripts/update-sf-components.sh . && chmod +x update-sf-components.sh
 ```
 
 ### 1.2. 运行工具脚本
@@ -599,10 +602,8 @@ docker cp ${USER}-kuscia-secretpad:/app/scripts/update-sf-components.sh . && chm
 ```shell
 # -u: 指定 ${USER}。若不指定，则使用系统默认${USER}，通过命令echo ${USER}查看
 # -i: 指定自定义Secretflow组件镜像为 "secretflow/sf-dev-anolis8:test_compare"
-# 中心化部署 
-sed -i 's/SECRETPAD_CONTAINER_NAME="${DEPLOY_USER}-kuscia-secretpad"/SECRETPAD_CONTAINER_NAME="${DEPLOY_USER}-kuscia-master-secretpad"/g' update-sf-components.sh  
-./update-sf-components.sh -u ${USER} -i secretflow/sf-dev-anolis8:test_compare
-# P2P部署
+#更新组件（'pad容器id'替换为真实pad容器id）
+sed -i 's/SECRETPAD_CONTAINER_NAME="${DEPLOY_USER}-kuscia-secretpad"/SECRETPAD_CONTAINER_NAME="pad容器id"/g' update-sf-components.sh  
 ./update-sf-components.sh -u ${USER} -i secretflow/sf-dev-anolis8:test_compare
 
 # 查看更多帮助信息
@@ -611,7 +612,7 @@ sed -i 's/SECRETPAD_CONTAINER_NAME="${DEPLOY_USER}-kuscia-secretpad"/SECRETPAD_C
 
 ## 2. 在Kuscia中注册自定义算法镜像
 
-有关将自定义Secretflow组件镜像注册到Kuscia ，请参考[注册自定义算法镜像](https://www.secretflow.org.cn/docs/kuscia/latest/zh-Hans/development/register_custom_image)
+有关将自定义Secretflow组件镜像注册到Kuscia ，请参考[注册自定义算法镜像](https://www.secretflow.org.cn/docs/kuscia/latest/zh-Hans/development/register_custom_image#id6)
 
 ⚠️**注意事项**
 
@@ -635,11 +636,11 @@ sed -i 's/SECRETPAD_CONTAINER_NAME="${DEPLOY_USER}-kuscia-secretpad"/SECRETPAD_C
 
 📎[bob_bank_account.csv](https://www.yuque.com/attachments/yuque/0/2023/csv/29690418/1692964412445-26b38397-cac9-4223-938e-9c08ca4e612e.csv)
 
-请在alice节点导入alice_bank_account
+请在alice节点导入alice_bank_account，deposit_alice字段改为string
 
 ![Import_Data](../imgs/import_data.png)
 
-然后在bob节点导入bob_bank_account
+请在 bob 节点导入 bob_bank_account，deposit_bob字段改为string
 
 ![Import_Data2](../imgs/import_data2.png)
 

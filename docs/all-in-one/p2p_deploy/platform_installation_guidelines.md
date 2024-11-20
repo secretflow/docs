@@ -76,7 +76,7 @@ MacOS 需将 docker container 内存上限提⾼为 6G。
 ```shell
 # 进入部署包所在路径
 cd 部署包所在路径
-sh install.sh autonomy -n alice -s 8080 -g 40803 -k 40802 -p 10080 -q 13081 -P mtls
+bash install.sh autonomy -n alice -s8080-g40803-k40802-p10080-q13081-P mtls 或./install.sh autonomy -n alice -s8080-g40803-k40802-p10080-q13081-P mtls
 ```
 
 端口示例：
@@ -90,13 +90,7 @@ kuscia     gateway  port:  18080->1080  -p 参数
 
 配置参数详解：
 
-- n:节点名称，平台页面的计算节点ID
-- m:master节点地址
-   - 协议:与—P参数对应关系
-      - notls->http
-      - (tls、mtls)->https
-   - ip:master节点的ip地址
-   - port:master节点的gateway端口号
+- n:节点名称，平台页面的计算节点ID，注意双方节点名称不能相同
 - t:节点token，平台页面中的节点部署令牌
 - d:项目的安装目录(默认安装目录是：$HOME/kuscia)
 - p:参数传递的是 lite/autonomy 容器 kuscia-gateway 映射到主机的端口，保证和主机上现有的端口不冲突即可
