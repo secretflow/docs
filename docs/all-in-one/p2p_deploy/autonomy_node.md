@@ -23,11 +23,11 @@
 
 ```shell
 # -n：平台节点Id，上图中“mklfcfwy”
-# -m：secretpad页面入口地址，宿主机真实ip和宿主机端口（本文以alice-isv为例）
+# -m：secretpad页面入口地址，宿主机真实ip（ifconfig查看本机ip）和宿主机端口（docker ps查看secretpad容器8080在宿主机映射的端口）
 # -t：从页面节点信息中复制获取，如上图
 # -p，-k，-g，-q，-x，-P和autonomy节点部署含义相同，此处不再过多介绍
 
-./install.sh autonomy-node -n mklfcfwy -m 'http://xxxxx:18088' -t xdeploy-tokenx -p 38080 -g 38081 -k 38082 -q 38083 -x 38084 -P notls
+./install.sh autonomy-node -n mklfcfwy -m 'http://xxxxx:8080' -t xdeploy-tokenx -p 38080 -g 38081 -k 38082 -q 38083 -x 38084 -P notls
 ```
 
 脚本执行过程如下
