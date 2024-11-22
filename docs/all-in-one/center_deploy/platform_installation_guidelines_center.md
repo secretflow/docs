@@ -84,7 +84,7 @@ cd
 
 ### 第4步：安装完成
 
-看到“web server started successfully”即为部署成功
+看到“All components started successfully, time spend: xxx second”即为部署成功
 
 ![Successful_Img](../imgs/successful2_img.png)
 
@@ -94,5 +94,5 @@ cd
 
 ![Login_Img](../imgs/login_img.png)
 
-若在部署过程中有相关的问题或者建议，可提交![Git_Img](../imgs/git_img.png)[issue](https://github.com/secretflow/secretflow/issues)
+若在部署过程中有相关的问题或者建议，可提交![Git_Img](../imgs/git_img.png)[issue](https://github.com/secretflow/secretpad/issues)
 反馈。

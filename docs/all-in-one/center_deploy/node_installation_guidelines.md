@@ -54,8 +54,8 @@ kuscia     gateway  port:  18080->1080  -p 参数
 ```
 
 配置参数详解：
-- n:节点名称，平台页面的计算节点ID
-- m:master节点地note
+- n:节点名称，平台页面的计算节点ID，注意双方节点不能相同
+- m:master节点地址
    - 协议:与—P参数对应关系
       - notls->http
       - (tls、mtls)->https
@@ -86,32 +86,6 @@ kuscia     gateway  port:  18080->1080  -p 参数
 本次新增的节点平台可以直接用浏览器打开 http://localhost：指定端口号 访问，内置的Alice和Bob节点可以直接访问管理数据，新注册的节点需要通过节点平台访问管理数据。
 
 ![Node_step7](../imgs/login_img.png)
-
-由于本次新增节点的数据管理功能暂不能直接拖csv文件进行注册，所以需要将文件放到指定目录下才能进行注册，新注册的节点数据管理edge平台界面操作如下：
-
-![Node_step8](../imgs/node_step8.png)
-
-# 数据添加：手动上传文件到服务器指定目录
-
-目前kuscia 使用 docker 部署，docker有磁盘挂载点，算子数据源和结果目前都在 docker容器的/home/kuscia/var/storage/data 目录下
-
-使用命令
-
-```shell
-docker ps
-```
-
-![Node_step9](../imgs/node_step9.png)
-
-如上图，可以看到宿主机 目录是 /root/kuscia/data/test-inf8eutnhifwod1i
-
-我们就把实体数据文件上传到该目录下
-
-```shell
-rz
-```
-
-上传文件名字要和创建的时候一致 比如 haha-alice.csv
 
 # 注意事项：机器关闭导致节点不可用
 

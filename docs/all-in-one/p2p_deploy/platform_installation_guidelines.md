@@ -76,7 +76,7 @@ MacOS 需将 docker container 内存上限提⾼为 6G。
 ```shell
 # 进入部署包所在路径
 cd 部署包所在路径
-sh install.sh autonomy -n alice -s 8080 -g 40803 -k 40802 -p 10080 -q 13081 -P mtls
+bash install.sh autonomy -n alice -s 8088 -g 18083 -k 18082 -p 18080 -q 13081 -x 18084 -P mtls
 ```
 
 端口示例：
@@ -86,17 +86,12 @@ secretpad  http     port:  8088->8080   -s 参数
 kuscia     http     prot:  18082->8082  -k 参数
 kuscia     grpc     port:  18083->8083  -g 参数
 kuscia     gateway  port:  18080->1080  -p 参数
+kuscia     Metrics  port:  18084->9091  -x 参数
 ```
 
 配置参数详解：
 
-- n:节点名称，平台页面的计算节点ID
-- m:master节点地址
-   - 协议:与—P参数对应关系
-      - notls->http
-      - (tls、mtls)->https
-   - ip:master节点的ip地址
-   - port:master节点的gateway端口号
+- n:节点名称，平台页面的计算节点ID，注意双方节点名称不能相同
 - t:节点token，平台页面中的节点部署令牌
 - d:项目的安装目录(默认安装目录是：$HOME/kuscia)
 - p:参数传递的是 lite/autonomy 容器 kuscia-gateway 映射到主机的端口，保证和主机上现有的端口不冲突即可
@@ -104,7 +99,8 @@ kuscia     gateway  port:  18080->1080  -p 参数
 - g:参数传递的是 lite/autonomy 容器 Kuscia-grpc 映射到主机的 HTTP/HTTPS 端口，保证和主机上现有的端口不冲突即可
 - s:secretpad平台端口，保证和主机上现有的端口不冲突即可
 - q:参数传递的是 lite/autonomy 容器 kuccia 映射到主机的 env 端口，保证和主机上现有的端口不冲突即可
-- P:KusciaAPI 以及节点对外网关使用的通信协议，有三种安全模式可供选择：notls/tls/mtls（非必填，只允许小写，默认：tls)，与 Kuscia 部署配置相同 [protocol参考链接](https://www.secretflow.org.cn/zh-CN/docs/kuscia/v0.6.0b0/deployment/kuscia_config_cn#id3)
+- x:参数传递的是 lite/autonomy 容器 kuccia 映射到主机的 Metrics 指标采集端口，保证和主机上现有的端口不冲突即可
+- P:KusciaAPI 以及节点对外网关使用的通信协议，有三种安全模式可供选择：notls/tls/mtls（非必填，只允许小写，默认：tls)，与 Kuscia 部署配置相同 [protocol参考链接](https://www.secretflow.org.cn/zh-CN/docs/kuscia/v0.12.0b0/deployment/kuscia_config_cn#id3)
    - notls: 此模式下，通信通过未加密的 HTTP 传输，比较安全的内部网络环境或者 Kuscia 已经存在外部网关的情况可以使用该模式【直接部署在公网有安全风险】。
    - tls: (默认)在此模式下，通信通过 TLS 协议进行加密，即使用 HTTPS 进行安全传输，不需要手动配置证书。
    - mtls: 这种模式也使用 HTTPS 进行通信，但它支持双向 TLS 验证，需要手动交换证书以建立安全连接。
@@ -119,7 +115,7 @@ kuscia     gateway  port:  18080->1080  -p 参数
 
 ### 1.3.4.安装完成
 
-看到“web server started successfully”即为部署成功
+看到“All components started successfully, time spend: xxx second”即为部署成功
 
 ![Successful_Img](../imgs/successful_img.png)
 
@@ -129,4 +125,4 @@ kuscia     gateway  port:  18080->1080  -p 参数
 
 ![Login_Img](../imgs/login_img.png)
 
-若在部署过程中有相关的问题或者建议，可提交[Issue](https://github.com/secretflow/secretflow/issues)反馈。
+若在部署过程中有相关的问题或者建议，可提交![Git_Img](../imgs/git_img.png)[Issue](https://github.com/secretflow/secretpad/issues)反馈。

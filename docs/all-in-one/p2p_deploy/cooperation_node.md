@@ -19,19 +19,21 @@ ifconfig
 
 ![Cooperation1](../imgs/cooperation_p2p1.png)
 
+根据本机真实IP（ifconfig获取），部署时-p指定的端口（docker ps 查看kuscia容器1080在宿主机映射的端口），修改通讯地址
+
 推荐用“节点认证码”用于给其他方进行<添加合作节点>操作。
 
 ![Cooperation2](../imgs/cooperation_p2p2.png)
 
 ## Step2:添加合作节点
 
-Step1：点击<添加合作节点>
+点击<添加合作节点>  
+![Cooperation3](../imgs/cooperation_p2p3.png)
 
-Step2：输入要添加的合作节点的节点认证码（输入后点击<识别解析>
-默认填充合作节点名称、ID、通讯地址、公钥），点击确定即可建立合作关系；也可以手动输入合作节点的名称、节点ID、通讯地址和公钥.
-
+1.输入要添加的合作节点的节点认证码  
+2.输入后点击<识别解析>  
+3.修改为本机IP,并选择对应的协议  
 <font color=#DF2A3F>重要：合作双方需分别添加对应合作节点</font>
 
-![Cooperation3](../imgs/cooperation_p2p3.png)
-![Cooperation4](../imgs/cooperation_p2p4.png)
+![Cooperation4](../imgs/cooperation_p2p4.png)  
 Tips：节点通讯地址协议是根据平台安装时「-P 参数（默认是TLS）」自动生成，NOTLS对应http，TLS和MTLS对应https。
