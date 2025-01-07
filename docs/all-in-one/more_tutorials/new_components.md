@@ -53,7 +53,9 @@
 
 如果你现在需要修改/新增一个组件，你需要：
 
-- 修改隐语代码
+- 开发新组件
+- 组件注册
+- 组件打包
 - 打包隐语镜像
 - 更新隐语SecretPad平台组件列表
 - 在调度框架Kuscia中注册新的组件镜像
@@ -91,106 +93,57 @@ bob：
 
 最后两边都需要知道交集中每家银行账号自己的存款是否比对方多。
 
-# 修改隐语代码
 
-当我们修改代码之前，我们需要简单了解以下隐语镜像中的层级关系：
+# 开发新组件
 
-![Structure](../imgs/structure.png)
-
-1.Kuscia Adapter：将kuscia的数据结构转化为SecretFlow组件数据结构。代码位于：https://github.com/secretflow/secretflow/blob/main/secretflow/kuscia/entry.py 你不需要修改这里。
-
-2.SecretFlow Comp Entry：读取SecretFlow组件数据结构，调用对应的组件。代码位于：https://github.com/secretflow/secretflow/blob/main/secretflow/component/entry.py 你需要在这里声明组件。
-
-3.SecretFlow Comps：所有隐语组件。代码位于：https://github.com/secretflow/secretflow/tree/main/secretflow/component 你需要在这个文件夹下创建你的新组件。
-
-4.SecretFlow Libraries：隐语API。你可以利用所有隐语现有的各类算法来构造组件。你可以在这个[链接](https://www.secretflow.org.cn/zh-CN/docs/secretflow/v1.4.0b0/user_guide)了解隐语的第一方库。你可能需要调整这部分代码。
-
-5.SecretFlow Devices：隐语设备，隐语将本地明文计算抽象为PYU运算，密态计算抽象为密态设备的运算：SPU（MPC，多方安全计算），HEU（HE，同态加密），TEEU（TEE，可信执行环境），如果你不了解，请阅读这个[文档](https://www.secretflow.org.cn/zh-CN/docs/secretflow/v1.4.0b0/developer/design/architecture)。你一般不需要修改这部分代码。
-
-6.Ray/RayFed：[Ray](https://www.ray.io)是隐语的底座，负责在一个kuscia拉起的隐语节点中调度资源，每一个计算参与方都是一个Ray集群。[RayFed](https://rayfed.readthedocs.io/en/latest)负责Ray集群之间的通信和协调。
-
-## 开发环境
-
-1.请安装以下工具：
-
-- gcc>=11.2
-- cmake>=3.18
-- ninja 不限版本
-- nasm>=2.15
-- python==3.10
-- bazel==5.4.1
-- golang>=1.22
-
-你可以参考[release-ci.DockerFile](https://github.com/secretflow/devtools/blob/main/dockerfiles/release-ci.DockerFile)来配置你的环境。
-
-2.当你配置好环境之后，请拉取代码
-
+新建自定义组件目录
 ```shell
-$ git clone https://github.com/secretflow/secretflow.git
-$ git checkout release/1.9.x
-$ cd secretflow
+$ mkdir -p test_compare/ss_compare/
+
+$ cd test_compare/
 ```
 
-注：git clone后，需要切换至已发版的稳定分支（隐语每次正式发版的分支），分支号查看方法如下：  
-a、点击https://github.com/secretflow/secretpad/blob/main/README.md#versions 查看你使用的 SecretPad 对应 SecretFlow 版本  
-eg：如你使用的是 0.6.0b0 的 SecretPad ，对应 SecretFlow 版本为 1.5.0b0
-![secretpad_version](../imgs/secretpad_version.png)  
-b、点击https://github.com/secretflow/secretflow 查看 SecretFlow 的稳定分支号  
-eg：如使用 SecretPad 对应 SecretFlow 版本为 1.5.0b0，则分支号为 release/1.5.x
-![secretflow_release](../imgs/secretflow_release.png) 
-
-3.尝试编译并安装隐语
+# 创建组件
+在 <span style="color: #E83E8C;"> ss_compare/ </span> 文件夹下新建文件 <span style="color: #E83E8C;"> ss_compare.py </span>
 
 ```shell
-$ python setup.py bdist_wheel
-
-$ pip install dist/*.whl
+$ touch ss_compare/ss_compare.py
 ```
 
-4.如果安装成功的话，你可以检查一下secretflow的版本（版本不需要和这里一致，只需要确保正确安装即可）
+## 定义组件
 
 ```shell
-$ secretflow -v
-WARNING:root:Since the GPL-licensed package `unidecode` is not installed, using Python's `unicodedata` package which yields worse results.
-SecretFlow version 1.1.0.dev20230817.
-(sf)
-```
+import logging
 
-5.在开始之前，先将secretflow移除
-
-```shell
-$ pip uninstall secretflow
-```
-
-## 创建组件
-
-### 新建文件
-
-在 <span style="color: #E83E8C;"> secretflow/component/ </span> 文件夹下新建文件 <span style="color: #E83E8C;"> compare.py </span>
-
-```shell
-$ cd secretflow/component/
-
-$ touch compare.py
-```
-
-### 声明组件
-
-```shell
-from secretflow.component.component import (
+import jax.numpy as jnp
+import pyarrow as pa
+import pyarrow.compute as pc
+from secretflow.component.core import (
     Component,
-    IoType,
-    TableColParam,
+    CompVDataFrame,
+    Context,
+    DistDataType,
+    Field,
+    Input,
+    Interval,
+    Output,
+    VTable,
+    VTableField,
+    VTableFieldKind,
+    register,
 )
-
-from secretflow.component.data_utils import DistDataType
-
-ss_compare_comp = Component(
-    "ss_compare",
-    domain="user",
-    version="0.0.1",
-    desc="""compare two tables.""",
+from secretflow.device import PYU
+from secretflow.data import FedNdarray, PartitionWay
+from secretflow.device.driver import wait
+from secretflow.spec.v1.data_pb2  import (
+        DistData,
+        IndividualTable,
+        TableSchema,
+        VerticalTable,
 )
+import os
+
+@register(domain="user", version="1.0.0", name="ss_compare")
 ```
 
 这段代码表明了：
@@ -200,19 +153,19 @@ ss_compare_comp = Component(
 - version: <span style="color: #E83E8C;"> 0.0.1 </span>
 - desc: <span style="color: #E83E8C;"> compare two tables. </span> 组件描述。
 
-### 定义组件参数
+## 组件声明
 
 ```shell
-ss_compare_comp.int_attr(
-    name="tolerance",
+class SSCompare(Component):
+```
+- Component：组件的基类
+
+## 组件参数
+```shell
+tolerance: int = Field.attr(
     desc="two numbers to be equal if they are within tolerance.",
-    is_list=False,
-    is_optional=True,
-    default_value=10,
-    allowed_values=None,
-    lower_bound=0,
-    lower_bound_inclusive=True,
-    upper_bound=None,
+    default=10,
+    bound_limit=Interval.closed(0, None),
 )
 ```
 
@@ -221,133 +174,75 @@ ss_compare_comp.int_attr(
 
 <font color=#E83E8C> int_attr </font> 代表了 <font color=#E83E8C> tolerance </font> 是一个integer参数。
 
-- name： 参数名称。
-- desc： 描述。
-- is_list： 参数是否是一个列表。这里设为False，代表了我们允许用户输入一个integer。如果是True，则代表了允许用户输入一个integer列表。
-- is_optional：是否是optional的。这里设为True，代表了用户可以不填，此时会使用default_value。
-- default_value：默认值，optional为True时需要给出。
-- allowed_values：允许值。None代表禁用。如果给出，那么用户就必须在给出的allowed_values中选择。
-- lower_bound：下限。这里是0，代表着我们需要用户给出一个正数。
-- lower_bound_inclusive：下限是否是包含。这里是True，代表了lower_bound也是一个合法的输入。
-- upper_bound：上限。这里是None，代表了没有上限。
+- Field.attr：定义 tolerance 参数的配置属性
+    - desc： 描述。
+    - defaultdesc： 默认值
+    -   bound_limit：约束，只能取大于0的整数。
 
 组件还可以设置其他类型的参数，请参阅：
 https://github.com/secretflow/secretflow/blob/main/secretflow/component/component.py#L256-L719
 
-### 定义输入输出
 
+## 选择列
 ```shell
-ss_compare_comp.io(
-    io_type=IoType.INPUT,
-    name="input_table",
-    desc="Input vertical table",
-    types=[DistDataType.VERTICAL_TABLE],
-    col_params=[
-        TableColParam(
-            name="alice_value",
-            desc="Column(s) used to compare.",
-            col_min_cnt_inclusive=1,
-            col_max_cnt_inclusive=1,
-        ),
-        TableColParam(
-            name="bob_value",
-            desc="Column(s) used to compare.",
-            col_min_cnt_inclusive=1,
-            col_max_cnt_inclusive=1,
-        ),
-    ],
+alice_value: str = Field.table_column_attr(
+    "input_table", desc="Column(s) used to compare."
 )
 
+bob_value: str = Field.table_column_attr(
+    "input_table", desc="Column(s) used to compare."
+)
+```
+定义需要比较的列（分别属于Alice和Bob的输入表）。
+- input_table：输入表的名称。
+- desc：描述。
 
-ss_compare_comp.io(
-    io_type=IoType.OUTPUT,
-    name="alice_output",
+
+## 定义输入输出
+```shell
+input_table: Input = Field.input(
+    desc="Input vertical table",
+    types=[DistDataType.VERTICAL_TABLE],
+)
+
+alice_output: Output = Field.output(
     desc="Output for alice",
     types=[DistDataType.INDIVIDUAL_TABLE],
 )
 
-ss_compare_comp.io(
-    io_type=IoType.OUTPUT,
-    name="bob_output",
+bob_output: Output = Field.output(
     desc="Output for bob",
     types=[DistDataType.INDIVIDUAL_TABLE],
 )
 ```
 
-我们在这里定义了两个输出：<span style="color: #E83E8C;"> alice_out put/bob_output </span> 和一个输入 <span style="color: #E83E8C;">input_table </span>
+我们在这里定义了两个输出：<span style="color: #E83E8C;"> alice_output/bob_output </span> 和一个输入 <span style="color: #E83E8C;">input_table </span>
 
 输入和输出的定义是类似的：
 
-- io_type: io类型，输入还是输出。
-- name：IO柱的名称。
 - desc：描述。
 - types：类型，包括：
     - INDIVIDUAL_TABLE：单方表。
     - VERTICAL_TABLE：垂直切分表，联合表。
 
-可以看到input参数还包含col_params，它是一个TableColParam 列表。每一个TableColParam表示用户需要在表中选择一些cols：
 
-- name：cols的名称。这里我们填写了alice_value, 意思是我们需要用户选择一些col作为alice_value列。
-- desc：描述。
-- col_min_cnt_inclusive：用户选择cols的最少数量。这里的1表示，我们要求用户至少选择一列作为alice_value列。
-- col_max_cnt_inclusive：用户选择cols的最多数量。这里的1表示，我们要求用户最多选择一列作为alice_value列。
-
-### 定义组件执行内容
+## 定义组件执行内容
 
 ```shell
-@ss_compare_comp.eval_fn
-def ss_compare_eval_fn(
-    *,
-    ctx,
-    tolerance,
-    input_table,
-    input_table_alice_value,
-    input_table_bob_value,
-    alice_output,
-    bob_output,
-):
-    import os
-
-    from secretflow.component.component import CompEvalError
-    from secretflow.component.data_utils import (
-        DistDataType,
-    )
-    from secretflow.component.dataframe import (
-        CompDataFrame,
-    )
-    from secretflow.data import FedNdarray, PartitionWay
-    from secretflow.device.device.pyu import PYU
-    from secretflow.device.device.spu import SPU
-    from secretflow.device.driver import wait
-    from secretflow.spec.v1.data_pb2  import (
-        DistData,
-        IndividualTable,
-        TableSchema,
-        VerticalTable,
-    )
-
-    # only local fs is supported at this moment.
-    data_dir = ctx.data_dir
-    #local_fs_wd = ctx.local_fs_wd
-
-    # get spu config from ctx
-    if ctx.spu_configs is None or len(ctx.spu_configs) == 0:
-        raise CompEvalError("spu config is not found.")
-    if len(ctx.spu_configs) > 1:
-        raise CompEvalError("only support one spu")
-    spu_config = next(iter(ctx.spu_configs.values()))
+def evaluate(self, ctx: Context) -> None:
+    logging.warning("ss_compare evaluate")
 
     # load inputs
     meta = VerticalTable()
-    input_table.meta.Unpack(meta)
+    self.input_table.meta.Unpack(meta)
 
     # get alice and bob party
-    for data_ref, schema in zip(list(input_table.data_refs), list(meta.schemas)):
-        if input_table_alice_value[0] in list(schema.features):
+    for data_ref, schema in zip(list(self.input_table.data_refs), list(meta.schemas)):
+        if self.alice_value in list(schema.features):
             alice_party = data_ref.party
             alice_ids = list(schema.ids)
             alice_id_types = list(schema.id_types)
-        elif input_table_bob_value[0] in list(schema.features):
+        elif self.bob_value in list(schema.features):
             bob_party = data_ref.party
             bob_ids = list(schema.ids)
             bob_id_types = list(schema.id_types)
@@ -355,20 +250,15 @@ def ss_compare_eval_fn(
     # init devices.
     alice = PYU(alice_party)
     bob = PYU(bob_party)
-    spu = SPU(spu_config["cluster_def"], spu_config["link_desc"])
+    spu = ctx.make_spu()
 
-    input_df = CompDataFrame.from_distdata(
-        ctx,
-        input_table,
-        load_labels=True,
-        load_features=True,
-        load_ids=True,
-        col_selects=input_table_alice_value + input_table_bob_value,
-    ).to_pandas(check_null=False)
+    input_df = ctx.load_table(self.input_table)
+    values = [self.alice_value, self.bob_value]
+    selected_df = input_df[values]
 
-    # pass inputs from alice and bob PYUs to SPU
-    alice_input_spu_object = input_df.partitions[alice].data.to(spu)
-    bob_input_spu_object = input_df.partitions[bob].data.to(spu)
+    # inputs from alice and bob PYUs to SPU
+    alice_input_spu_object = selected_df.partitions[alice].to(spu)
+    bob_input_spu_object = selected_df.partitions[bob].to(spu)
 
     from secretflow.device import SPUCompilerNumReturnsPolicy
 
@@ -380,7 +270,7 @@ def ss_compare_eval_fn(
         compare_fn,
         num_returns_policy=SPUCompilerNumReturnsPolicy.FROM_USER,
         user_specified_num_returns=2,
-    )(alice_input_spu_object, bob_input_spu_object, tolerance)
+    )(alice_input_spu_object, bob_input_spu_object, self.tolerance)
 
     # convert to FedNdarray
     res = FedNdarray(
@@ -392,23 +282,21 @@ def ss_compare_eval_fn(
     )
 
     def save(id, id_key, res, res_key, path):
+        print(f'save:id: {id}')
+        print(f'save():id: {type(id)}')
+        logging.info(f'save():id: {id}')
+        logging.info(f'save():id: {type(id)}')
         import pandas as pd
 
-        x = pd.DataFrame(id, columns=id_key)
+        x = pd.DataFrame(id.to_pandas(), columns=id_key)
         label = pd.DataFrame(res, columns=res_key)
         x = pd.concat([x, label], axis=1)
 
         x.to_csv(path, index=False)
 
+    data_dir = ctx.data_dir
 
-    alice_id_df = CompDataFrame.from_distdata(
-        ctx,
-        input_table,
-        load_labels=False,
-        load_features=False,
-        load_ids=True,
-        col_selects=alice_ids,
-    ).to_pandas(check_null=False)
+    alice_id_df = input_df[alice_ids]
 
     wait(
         alice(save)(
@@ -416,18 +304,11 @@ def ss_compare_eval_fn(
             alice_ids,
             res.partitions[alice].data,
             ['result'],
-            os.path.join(data_dir, alice_output),
+            os.path.join(data_dir, self.alice_output.uri),
         )
     )
 
-    bob_id_df = CompDataFrame.from_distdata(
-        ctx,
-        input_table,
-        load_labels=False,
-        load_features=False,
-        load_ids=True,
-        col_selects=bob_ids,
-    ).to_pandas(check_null=False)
+    bob_id_df = input_df[bob_ids]
 
     wait(
         bob(save)(
@@ -435,7 +316,7 @@ def ss_compare_eval_fn(
             bob_ids,
             res.partitions[bob].data,
             ['result'],
-            os.path.join(data_dir, bob_output),
+            os.path.join(data_dir, self.bob_output.uri),
         )
     )
 
@@ -443,7 +324,7 @@ def ss_compare_eval_fn(
     alice_db = DistData(
         name='result',
         type=str(DistDataType.INDIVIDUAL_TABLE),
-        data_refs=[DistData.DataRef(uri=alice_output, party=alice.party, format="csv")],
+        data_refs=[DistData.DataRef(uri=self.alice_output.uri, party=alice.party, format="csv")],
     )
 
     alice_meta = IndividualTable(
@@ -461,7 +342,7 @@ def ss_compare_eval_fn(
     bob_db = DistData(
         name='result',
         type=str(DistDataType.INDIVIDUAL_TABLE),
-        data_refs=[DistData.DataRef(uri=bob_output, party=bob.party, format="csv")],
+        data_refs=[DistData.DataRef(uri=self.bob_output.uri, party=bob.party, format="csv")],
     )
 
     bob_meta = IndividualTable(
@@ -476,109 +357,210 @@ def ss_compare_eval_fn(
 
     bob_db.meta.Pack(bob_meta)
 
-    return {"alice_output": alice_db, "bob_output": bob_db}
+    self.alice_output.data = alice_db
+
+    self.bob_output.data = bob_db
+```
+1. ctx包含了所有环境信息，比如spu的config。
+2. CompVDataFrame：作为结果存储的数据结构，返回一个VDataFrame对象。
+
+
+## 组件声明
+在 <font color=#E83E8C> test_compare/ss_compare/ </font> 下创建 <span> __init__.py </span>
+```shell
+$ touch ss_compare/__init__.py
 ```
 
-1.组件执行函数使用decorator <span style="color: #E83E8C;"> @ss_compare_comp.eval_fn </span> 修饰
+声明组件为python模块
 
-2.组件执行函数的signature必须为 <span style="color: #E83E8C;"> fn(*,ctx,attr1, attr2, attr3, io1, io1_col1, io1_col2,..., io3,..,
-ioN) </span> :
+```__init__.py
+# Copyright 2024 Ant Group Co., Ltd.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+```
+标记 ss_compare 为一个python模块。
 
-    1.attr1, attr2, attr3指的是组件的attribute的值
 
-    2.io：当io是输入的时候，io是对应的DistData；当io是输出的时候，io是对应的路径；io_col指的是io柱选中的col列名。
 
-    3.ctx包含了所有环境信息，比如spu的config。
+# 组件注册
+在 <font color=#E83E8C> test_compare/ss_compare/ </font> 下创建 <span>entry.py</span>
+ 
+```shell
+$ touch ss_compare/entry.py
+```
 
-## 注册组件
-
-在<a href="https://github.com/secretflow/secretflow/blob/main/secretflow/component/entry.py"><b>ALL_COMPONENTS</b></a> 注册组件(加入你的新组件)
+定义组件的注册信息
 
 ```shell
-from secretflow.component.compare import ss_compare_comp
+import os
 
-ALL_COMPONENTS = [
-    train_test_split_comp,
-    psi_comp,
-    ss_sgd_train_comp,
-    ss_sgd_predict_comp,
-    feature_filter_comp,
-    vert_woe_binning_comp,
-    vert_woe_substitution_comp,
-    ss_vif_comp,
-    ss_pearsonr_comp,
-    ss_pvalue_comp,
-    table_statistics_comp,
-    biclassification_eval_comp,
-    prediction_bias_comp,
-    sgb_predict_comp,
-    sgb_train_comp,
-    ss_xgb_predict_comp,
-    ss_xgb_train_comp,
-    ss_glm_predict_comp,
-    ss_glm_train_comp,
-    ss_compare_comp,
-]
+from secretflow.component.core import load_component_modules
+
+def main():
+    root_path = os.path.dirname(__file__)
+    load_component_modules(
+        root_path, "ss_compare", ignore_keys=["entry.py"], ignore_root_files=False
+    )
 ```
+load_component_modules为Secretflow的动态加载组件的函数。
+- root_path：当前目录
+- test_compare：组件名称
+- ignore_keys：忽略指定文件
+- ignore_root_files：是否忽略根目录文件（此处为不忽略）
+
+
+
+# 组件打包
+在 <font color=#E83E8C> test_compare/ </font> 下创建 <span>setup.py</span>
+```shell
+$ touch setup.py
+```
+
+定义组件打包入口信息
+```setup.py
+from setuptools import find_packages, setup
+
+def read_requirements(file):
+    with open(file) as f:
+        return [line.strip() for line in f if line and not line.startswith("#")]
+
+setup(
+    name="test_compare",
+    version="0.1",
+    packages=find_packages(),
+    install_requires=read_requirements("requirements.txt"),
+    entry_points={
+        "secretflow_plugins": [
+            "ss_compare=ss_compare.entry:main",
+        ],
+    },
+)
+```
+- name：包名。
+- version：包的版本号。
+- packages：需要包含的包。
+- install_requires：定义打包时需要安装的依赖库。
+- entry_points：组件的入口。需要指定group为secretflow_plugins，每个插件名需要全局唯一,entry.py为插件入口函数，需要import所需要的组件。
+
+## 定义需要用到的 secretflow 版本信息
+在 <font color=#E83E8C> test_compare/ </font> 下创建 requirements.txt
+```shell
+$ touch requirements.txt
+```
+
+```requirements.txt
+secretflow-lite==1.11.0b1
+```
+
+## 打包组件
+在 <font color=#E83E8C> test_compare/ </font> 下执行打包命令：`python setup.py bdist_wheel`，成功后会生成 <font color=#E83E8C> dist/test_compare-0.1-py3-none-any.whl </font> 文件。
+接下来可以检查 ss_compare 是否打包成功：
+```shell
+$ pip install dist/test_compare-0.1-py3-none-any.whl
+
+$ secretflow component ls
+```
+如果需要创建多个组件，重复上述步骤即可。
+
+
+# 目录结构说明
+```shell
+├── test_compare
+│   ├── requirements.txt
+│   ├── setup.py			# 打包入口
+│   └── ss_compare
+│       ├── entry.py		# 组件入口
+│       ├── __init__.py
+│       └── ss_compare.py   # 自定义组件
+```
+
 
 # 打包隐语镜像
 
-## 更新组件列表及翻译
-
-请在repo更目录执行以下cmd。
-
+## 创建Dockerfile
+在 <font color=#E83E8C> test_compare/ </font> 下创建 <font color=#E83E8C> docker/ </font> 目录并生成 Dockerfile；
 ```shell
-$ cd docker/
+$ mkdir docker
 
-$ pip install -r requirements.txt
+$ touch docker/Dockerfile
+```
+参考 https://github.com/secretflow/secretflow/blob/main/docker/dev/Dockerfile 定义Dockerfile；
+```
+FROM openanolis/anolisos:8.8 AS builder
 
-$ env PYTHONPATH=$PYTHONPATH:$PWD/.. python update_meta.py
-Using region  server backend.
+RUN yum install -y \
+    wget gcc gcc-c++ autoconf bison flex git protobuf-devel libnl3-devel \
+    libtool make pkg-config protobuf-compiler \
+    && yum clean all
 
-WARNING:root:Since the GPL-licensed package `unidecode` is not installed, using Python's `unicodedata` package which yields worse results.
-INFO:root:1. Update secretflow comp list.
-INFO:root:2. Update translation.
+RUN cd / && git clone https://github.com/google/nsjail.git \
+    && cd /nsjail && git checkout 3.3 -b v3.3 \
+    && make && mv /nsjail/nsjail /bin
+
+FROM secretflow/anolis8-python:3.10.13 AS python
+
+FROM openanolis/anolisos:8.8
+
+LABEL maintainer="secretflow-contact@service.alipay.com"
+
+COPY --from=builder /bin/nsjail /usr/local/bin/
+COPY --from=python /root/miniconda3/envs/secretflow/bin/ /usr/local/bin/
+COPY --from=python /root/miniconda3/envs/secretflow/lib/ /usr/local/lib/
+
+RUN yum install -y protobuf libnl3 libgomp && yum clean all
+
+RUN grep -rl '#!/root/miniconda3/envs/secretflow/bin' /usr/local/bin/ | xargs sed -i -e 's/#!\/root\/miniconda3\/envs\/secretflow/#!\/usr\/local/g'
+
+COPY *.whl /tmp/
+
+RUN pip install -i https://mirrors.aliyun.com/pypi/simple/ kuscia
+RUN pip install -i https://mirrors.aliyun.com/pypi/simple/ /tmp/*.whl && rm -rf /root/.cache
+
+# COPY .nsjail /root/.nsjail
+
+ARG config_templates=""
+LABEL kuscia.secretflow.config-templates=$config_templates
+
+ARG deploy_templates=""
+LABEL kuscia.secretflow.deploy-templates=$deploy_templates
+
+# run as root for now
+WORKDIR /root
+
+CMD ["/bin/bash"]
 ```
 
-此时，你可以检查组件列表是否正确更新：
-
+将生成的 <font color=#E83E8C> dist/test_compare-0.1-py3-none-any.whl </font>  拷贝到 <font color=#E83E8C> docker/ </font> 路径下；
 ```shell
-$ git diff comp_list.json
+$ cp dist/* docker/
 ```
-
-![Check_Update](../imgs/check_update.png)
-
-然后你需要检查一下翻译：
-
-```shell
-$ git diff translation.json
-```
-
-![Check_Translation](../imgs/check_translation.png)
-
-请注意脚本目前是利用公开的翻译API进行处理的，如果有不合理的地方，请自行修改 <span style="color: #E83E8C;"> translation.json </span>
 
 ## 打包镜像
-
 ```shell
-$ cd dev/
-
-# test_compare是image name
-$ sh build.sh -v test_compare
+$ cd docker/
+$ docker build . -f Dockerfile -t secretflow/sf-dev-anolis8:test_compare
 ```
 
-成功之后你可以用docker inspect来检查镜像。
-
+成功之后你可以用 `docker inspect` 来检查镜像。
 ```shell
-docker image inspect secretflow/sf-dev-anolis8:test_compare
+$ docker image inspect secretflow/sf-dev-anolis8:test_compare
 ```
 
 在打包好镜像之后，需参考后续步骤完成下面操作：
-
-- 将自定义的新组件更新到隐语SecretPad平台组件列表中。
+- 将自定义的新组件更新到隐语SecretPad平台组件列表中（此步骤后续在1.11中由secretpad完成）。
 - 将自定义的新组件镜像注册在调度框架Kuscia中。
-
 在完成上述步骤后，就可以在隐语SecretPad平台上使用自定义的新组件了。
+
 
 # 注册隐语镜像
 
@@ -636,11 +618,11 @@ sed -i 's/SECRETPAD_CONTAINER_NAME="${DEPLOY_USER}-kuscia-secretpad"/SECRETPAD_C
 
 📎[bob_bank_account.csv](https://www.yuque.com/attachments/yuque/0/2023/csv/29690418/1692964412445-26b38397-cac9-4223-938e-9c08ca4e612e.csv)
 
-请在alice节点导入alice_bank_account，deposit_alice字段改为string
+请在alice节点导入alice_bank_account，deposit_alice字段改为float
 
 ![Import_Data](../imgs/import_data.png)
 
-请在 bob 节点导入 bob_bank_account，deposit_bob字段改为string
+请在 bob 节点导入 bob_bank_account，deposit_bob字段改为float
 
 ![Import_Data2](../imgs/import_data2.png)
 
