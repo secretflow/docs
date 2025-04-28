@@ -4,7 +4,7 @@
 
 ## 1.1 系统要求
 
-操作系统：MacOS, CentOS7, CentOS8，Ubuntu 16.04 及以上版本，Windows(通过WSL2上的 Ubuntu)
+操作系统：MacOS, CentOS7, CentOS8，Ubuntu 20.04 及以上版本，Windows(通过WSL2上的 Ubuntu)
 
 资源：8core/16G Memory/200G Hard disk
 
