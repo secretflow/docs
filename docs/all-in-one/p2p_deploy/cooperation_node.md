@@ -21,7 +21,7 @@ ifconfig
 
 根据本机真实IP（ifconfig获取），部署时-p指定的端口（docker ps 查看kuscia容器1080在宿主机映射的端口），修改通讯地址
 
-推荐用“节点认证码”用于给其他方进行<添加合作节点>操作。
+复制“节点认证码”用于给其他方进行<添加合作节点>操作。
 
 ![Cooperation2](../imgs/cooperation_p2p2.png)
 
