@@ -4,7 +4,7 @@
 
 ## 1.1. 系统要求
 
-操作系统：MacOS, CentOS7, CentOS8，Ubuntu 20.04 及以上版本，Windows(通过WSL2上的 Ubuntu)
+操作系统：MacOS, CentOS7, CentOS8，Ubuntu 16.04 及以上版本，Windows(通过WSL2上的 Ubuntu)
 
 资源：8core/16G Memory/200G Hard disk
 
@@ -33,7 +33,7 @@ systemctl start docker
 ### 1.2.2.Windows系统
 
 参考[Docker官方文档](https://docs.docker.com/desktop/install/windows-install/)在 Windows 上安装 Docker，并确保 Docker
-的后端是**WSL2**
+的后段是**WSL2**
 
 MacOS 需将 docker container 内存上限提⾼为 6G。
 

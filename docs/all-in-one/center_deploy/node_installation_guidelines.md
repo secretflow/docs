@@ -18,7 +18,7 @@
 
 ![Node_step3](../imgs/node_step3.png)
 
-## 第 2 步：获取Center平台所在的ip地址-下载并解压部署包-安装部署
+## 第 2 步：获取Centre平台所在的ip地址-下载并解压部署包-安装部署
 
 若是同一网络内，则只需获取本机的ip地址即可，以mac为例，通过ifconfig命令获取③ip地址。
 
@@ -48,7 +48,7 @@ bash install.sh lite -n alice -m 'http://root-kuscia-master:1080' -t xdeploy-tok
 ```
 容器:                端口对应:外部->内部  部署参数:
 secretpad  http     port:  8088->8080   -s 参数
-kuscia     http     port:  18082->8082  -k 参数
+kuscia     http     prot:  18082->8082  -k 参数
 kuscia     grpc     port:  18083->8083  -g 参数
 kuscia     gateway  port:  18080->1080  -p 参数
 ```
