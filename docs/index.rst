@@ -9,4 +9,4 @@ SecretPad All in One 文档
 
 
 
-    all-in-one/index
+    all_in_one/index
