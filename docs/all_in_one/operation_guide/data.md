@@ -8,7 +8,7 @@
 
 用户需添加自有数据用于离线任务研发或在线预测，在数据管理右侧点击“添加数据”：
 
-![Data1](../../imgs/data10.png)
+![Data1](../imgs/data10.png)
 
 可选择本地数据源、HTTP数据源或在数据源管理注册的oss数据源；
 
@@ -16,13 +16,13 @@
 
 <font color=#DF2A3F>注：需在此页面等待数据上传完毕，如中途关闭页面会导致数据上传中断</font>
 
-![Data2](../../imgs/data11.png)
+![Data2](../imgs/data11.png)
 
 上传数据后，可设置数据表名称、输入数据表描述及特征描述后点击“提交”。
 
 <font color=#DF2A3F>重要：特征名称需和实际文件的 schame 名称保持一致。</font>
 
-![Data3](../../imgs/data12.png)
+![Data3](../imgs/data12.png)
 
 ## 3. 删除数据
 
@@ -30,7 +30,7 @@
 
 <font color=#DF2A3F> 注：已授权到项目中的数据无法删除，删除按钮为灰色 </font>
 
-![Data4](../../imgs/data4.png)
+![Data4](../imgs/data4.png)
 
 ## 4. 授权管理
 
@@ -38,39 +38,39 @@
 
 <font color=#DF2A3F> 注：双方节点都需上传训练数据并进行授权 </font>
 
-![Data5](../../imgs/data5.png)
-![Data6](../../imgs/data6.png)
+![Data5](../imgs/data5.png)
+![Data6](../imgs/data6.png)
 
 ## 5. 安全配置
 
 在数据授权的时候，启用了数据表安全设置功能，针对表字段增加关联键，分组列，保护开关配置，目前安全配置仅适用于 SCQL 联合分析组件，可以根据实际情况进行配置，以下将会以隐私求交相关组件为例。
 
-![Data13](../../imgs/data13.png)  
-![Data14](../../imgs/data14.png)
+![Data13](../imgs/data13.png)  
+![Data14](../imgs/data14.png)
 
 点击安全配置说明可以查看具体配置规则
 
-![Data15](../../imgs/data15.png)
+![Data15](../imgs/data15.png)
 
 安全配置包含：  
 **关联键**：注意选择关联键时，保护开关会自动打开，且无法同时选择分组列。  
 **分组列**：注意选择分组列时，保护开关会自动打开，且无法同时选择关联键。  
 
-![Data16](../../imgs/data16.png)
+![Data16](../imgs/data16.png)
 
 保护开关：如果关闭，字段将不被保护，字段数值可以明文透出在结果中，字段可以任意操作；当打开时，经比较函数、聚合函数处理后，才能出现在SELECT的分析结果中；注意保护开关可以单独打开。
 
 隐私求交仅使用了求交键，打开id1的保护开关。
 
-![Data17](../../imgs/data17.png)  
-![Data18](../../imgs/data18.png)
+![Data17](../imgs/data17.png)  
+![Data18](../imgs/data18.png)
 
 其它具体配置场景，建议在配置授权时，查看安全配置说明。
 
-![Data19](../../imgs/data19.png)
+![Data19](../imgs/data19.png)
 
 ## 6. 取消授权
 
 如需对某项目取消数据授权，点击“授权管理”—“取消授权”即可
 
-![Data7](../../imgs/data7.png)
+![Data7](../imgs/data7.png)
