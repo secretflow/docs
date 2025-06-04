@@ -10,7 +10,7 @@
 ### 登录平台
 浏览器打开 http://localhost:secretpad 端口号（或者 http://部署服务器的ip:secretpad端口号），利用部署过程中配置的用户密码登录平台即可体验 ，如已经登录，可跳过。
 ![Login_Img](../imgs/login_img.png)
-![Center_Login](../imgs/center_login.png)
+![Center_Login](../imgs/center_login1.png)
 
 管道模式创建项目
 管道模式是指多方数据安全（MPC）和联邦学习（FL）模式下的隐私计算模式。
