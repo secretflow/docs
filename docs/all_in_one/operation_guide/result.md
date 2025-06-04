@@ -10,14 +10,14 @@
 
 通过搜索“结果ID”、“来源项目”、“所属训练流”查询具体结果，结果类型包含“表、报告、规则、模型”，可根据类型对结果进行筛选。
 
-![Result1](../../imgs/result1.png)
+![Result1](../imgs/result1.png)
 
 ## 3. 下载训练流生成结果
 
 点击“下载”按钮可下载训练结果到本地
 
-![Result3](../../imgs/result3.png)
+![Result3](../imgs/result3.png)
 
 <font color=#DF2A3F> 注：其中“表、规则、模型”类型的结果可直接下载；“报告”类型的结果可点击“结果ID”查看具体报告并导出报告的原始数据。</font>
 
-![Result4](../../imgs/result4.png)
+![Result4](../imgs/result4.png)

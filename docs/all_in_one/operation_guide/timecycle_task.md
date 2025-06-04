@@ -8,11 +8,11 @@
 
 部署周期任务，需要首先执行成功一次任务流，并且周期任务选择的样本表，通常是分区表，如下：
 
-![Timecycle1](../../imgs/timecycle1.png)
+![Timecycle1](../imgs/timecycle1.png)
 
 新建周期任务需要填写如下信息：任务描述，调度时间范围，调度周期，指定日期，指定时刻。
 
-![Timecycle2](../../imgs/timecycle2.png)
+![Timecycle2](../imgs/timecycle2.png)
 
 **任务ID**：由前端调用SecretPad后端生成，随机字符串和时间戳（并非是在kuscia中查看的jobId）  
 **调度时间**：范围需要大于等于24小时  
@@ -22,12 +22,12 @@
 
 定时任务设置完成保存之后，可以在画布上的周期任务列表中看到发布的周期任务。
 
-![Timecycle3](../../imgs/timecycle3.png)
+![Timecycle3](../imgs/timecycle3.png)
 
 点击任务ID可以看到具体执行的任务。
 
-![Timecycle4](../../imgs/timecycle4.png)
+![Timecycle4](../imgs/timecycle4.png)
 
 调度历史中包含任务执行记，本次示例是以日维度，每天14:13执行任务，运行成功后，如下图：
 
-![Timecycle5](../../imgs/timecycle5.png)
+![Timecycle5](../imgs/timecycle5.png)

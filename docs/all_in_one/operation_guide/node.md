@@ -10,8 +10,8 @@
 
 推荐用“节点认证码”用于给其他方进行<添加合作节点>操作。
 
-![Node1](../../imgs/node1.png)
-![Node2](../../imgs/node2.png)
+![Node1](../imgs/node1.png)
+![Node2](../imgs/node2.png)
 
 ## 3. 编辑节点通讯地址
 
@@ -21,7 +21,7 @@
 
 <font color=#DF2A3F> 由于本机会有多网卡，以及不同局域网和广域网的地址出口ip不同，需要用户自行查看判断IP地址。查看方法：以linux为例，命令行输入命令`ifconfig`；端口号为部署SecretPad时用户自行确定的Kuscia P2P 节点的gateway端口。</font>
 
-![Node3](../../imgs/node3.png)
+![Node3](../imgs/node3.png)
 
 ## 4. 添加合作节点
 
@@ -29,8 +29,8 @@
 
 <font color=#DF2A3F> 重要：合作双方需分别添加对应合作节点 </font>
 
-![Node4](../../imgs/node4.png)
-![Node5](../../imgs/node5.png)
+![Node4](../imgs/node4.png)
+![Node5](../imgs/node5.png)
 
 ## 5. 修改合作节点通讯地址
 
@@ -38,7 +38,7 @@
 
 <font color=#DF2A3F> 注：已建立合作关系后只允许修改合作节点通讯地址，如需修改合作节点名称、ID等信息，需删除合作后重新建立合作关系。</font>
 
-![Node6](../../imgs/node6.png)
+![Node6](../imgs/node6.png)
 
 ## 6. 删除合作节点
 
@@ -46,4 +46,4 @@
 
 <font color=#DF2A3F> 注：如存在进行中的任务，不允许进行删除操作，删除按钮为灰色 </font>
 
-![Node7](../../imgs/node7.png)
+![Node7](../imgs/node7.png)

@@ -6,7 +6,7 @@
 
 ## 2. 注册数据源
 在数据源管理页面，点击注册数据源，当前支持oss、odps数据源；  
-![Data1](../../imgs/data_source1.png)
+![Data1](../imgs/data_source1.png)
 ### 如新增oss数据源需输入
 - 平台展示的名字，即显示名称 
 - endpoint名称
