@@ -118,7 +118,7 @@ kuscia     Metrics  port:  38084->9091  -x 参数
 
 安装完成状态
  装输出“All components started successfully, time spend: xxx second”即为部署成功 
- ![P2p_Sucess](../imgs/p2p_sucess.png)
+ ![P2p_Sucess](../imgs/p2p_success.png)
 
 注：点对点（P2P）模式，如果想做数据求交至少有两个节点，可以按照步骤2-4可以再部署安装另外一个节点。
 浏览器访问平台
