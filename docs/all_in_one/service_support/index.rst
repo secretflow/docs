@@ -2,6 +2,6 @@
 =====
 
 .. toctree::
-    :maxdepth: 2 
+    :maxdepth: 1
 
-    contact_us.md
+    contact_us

@@ -1,4 +1,4 @@
-更多教程
+开发者指南
 =====
 
 
@@ -6,3 +6,4 @@
     :maxdepth: 2
 
     new_components
+    scql_join_analysis
