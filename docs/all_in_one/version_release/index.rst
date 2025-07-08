@@ -4,5 +4,5 @@
 .. toctree::
     :maxdepth: 1
 
-    history_version
-    verison_desc
+    history_version.md
+    version_desc.md

@@ -2,9 +2,8 @@ SecretPad All in One 文档
 =====
 
 
-
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 1
     :titlesonly:
 
 

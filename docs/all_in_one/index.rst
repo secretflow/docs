@@ -4,12 +4,11 @@ All in one 文档
 .. toctree::
     :maxdepth: 1
 
-    ./product_introduction
-    ./install_deployment
-    ./quick_start
-    ./operation_guide
-    component_desc.md
-    ./practical_tutorial
-    ./developer_guide
-    ./version_release
-    ./service_support
+    product_introduction/index
+    install_deployment/index
+    quick_start/index
+    operation_guide/index
+    components_instruction.md
+    developer_guide/index
+    version_release/index
+    service_support/index
