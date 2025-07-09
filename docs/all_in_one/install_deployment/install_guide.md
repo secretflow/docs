@@ -10,13 +10,15 @@
 适用场景：中心化模式适用于数据量较大、计算任务复杂且对数据安全和隐私要求较高的场景。
 ## 环境依赖
 ### 版本要求
-操作系统： 
-● CentOS7 CentOS8
-● Ubuntu 20.04 及以上版本
-● MacOS
-● Windows (通过WSL2上的 Ubuntu)；
-资源准备： 8核/16G 内存/200G 硬盘
-Docker：推荐使用 20.10.24 及以上版本
+#### 操作系统： 
+<ul><li>CentOS7 CentOS8<ul>
+<ul><li>Ubuntu 20.04 及以上版本<ul>
+<ul><li>MacOS<ul>
+<ul><li>Windows (通过WSL2上的 Ubuntu)<ul>
+
+#### 资源准备： 8核/16G 内存/200G 硬盘
+#### Docker：推荐使用 20.10.24 及以上版本
+
 ### Docker安装
 #### Linux（centos）系统
 ```shell
@@ -32,13 +34,13 @@ systemctl start docker
 ```
 
 #### Mac OS 系统
-参考官网进行安装： 官方文档安装指导 
-Docker软件包：https://download.docker.com/linux/centos/7/x86_64/stable/Packages/
+参考官网进行安装： [Docker官网文档安装指导](https://docs.docker.com/desktop/setup/install/mac-install)
+Docker软件包：[Docker安装包](https://download.docker.com/linux/centos/7/x86_64/stable/Packages/)
 
 #### Windows系统（不推荐）
-参考Docker官方文档在 Windows 上安装 Docker，并确保 Docker 的后段是WSL2
+参考[Docker官网文档安装指导](https://docs.docker.com/desktop/setup/install/mac-install) 在Windows 上安装 Docker，并确保 Docker 的后段是WSL2
 MacOS 需将 Docker container 内存上限提⾼为 6G。
-参考WSL官方文档 设置对应的设置即可
+参考[WSL官方文档](https://learn.microsoft.com/en-us/windows/wsl/wsl-config#configure-global-options-with-wslconfig) 设置对应的设置即可
 #### Docker内存配置（重要‼️）
 隐语安装包内存要求，Docker Container 最小内存配置为 6G，不同的内存修改方式如下：
 ##### 命令行方式
@@ -77,9 +79,11 @@ services:
 界面方式
 Docker Container版本不同，配置方式不同：
 V4.3.1参考：
+
 ![Example1](../imgs/example1.png) ![Example2](../imgs/example2.png)
 
 V4.20.1参考：
+
 ![Example3](../imgs/example3.png)
 
 硬件支持
