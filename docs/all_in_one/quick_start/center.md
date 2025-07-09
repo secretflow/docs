@@ -1,8 +1,8 @@
 # 中心化模式快速体验
 
 ## 注意事项
-● 了解缩写的关键字注释，可参考
-● 了解管道模式和枢纽模式的区别。
+<ul><li>了解缩写的关键字注释，可参考</li><ul>
+<ul><li>了解管道模式和枢纽模式的区别</li><ul>
        
 ## 前提条件
 ● 通过浏览器能正常登录，检查各个节点工作正常
@@ -12,15 +12,15 @@
 ![Login_Img](../imgs/login_img.png)
 ![Center_Login](../imgs/center_login1.png)
 
-管道模式创建项目
+### 管道模式创建项目
 管道模式是指多方数据安全（MPC）和联邦学习（FL）模式下的隐私计算模式。
-新建项目
+#### 新建项目
 中心化项目登陆之后可以直接新建项目：
 首测体验，可以选择内置训练流模版，联合圈人和二分类建模
 填写项目名称->（项目描述）->选择管道模式->选择训练流模版，创建项目。
 ![Center_New](../imgs/center_new.png)
 
-运行及结果
+#### 运行及结果
 二分类建模内置训练流的运行及结果：
 ![Center_Result](../imgs/center_result.png)
 ![Center_Result1](../imgs/center_result1.png)
@@ -30,13 +30,13 @@
 ![Center_Result3](../imgs/center_result3.png)
 
 
-枢纽模式创建项目
+### 枢纽模式创建项目
 枢纽模式是指可信硬件空间（TEE）的隐私计算模式，目前开源产品的枢纽模式只支持仿真模式。（用户如需真正的可信数据空间，可以联系我们以商业化项目模式推进）
-新建项目
+#### 新建项目
 填写项目名称->（项目描述）->选择枢纽模式->添加节点->创建项目。
 ![Center_Center](../imgs/center_center.png)
 
-运行及结果
+#### 运行及结果
 创建二分类建模训练流运行及结果
 ![Center_Center1](../imgs/center_center1.png)
 ![Center_Center2](../imgs/center_center2.png)
@@ -47,7 +47,7 @@
 ![Center_Center4](../imgs/center_center4.png)
 
 
-新增节点（可选）
+### 新增节点（可选）
 中心化模式下内置了两个节点alice和bob，用户可以按需新增其他节点。
 节点名称可由中文/英文/数字/下划线/中划线组成，长度限制32，新增的节点不能和已有的节点名称重复。
 ![Center_New1](../imgs/center_new1.png)
@@ -83,7 +83,7 @@ bash install.sh lite -n newtest -m 'http://root-kuscia-master:1080' -t xdeploy-t
 本次新增的节点平台可以直接用浏览器打开 http://localhost：指定端口号 访问，内置的Alice和Bob节点可以直接访问管理数据，新注册的节点需要通过节点平台访问管理数据。
 ![Login_Img](../imgs/login_img.png)
 
-新增数据（可选）
+### 新增数据（可选）
 进入项目->点击数据集—>选择节点—>点击➕号，会新弹出该节点的内置界面，在新的Edge界面添加数据。
 ![Center_Data](../imgs/center_data.png)
 ![Center_Data1](../imgs/center_data1.png)
@@ -111,7 +111,7 @@ bash install.sh lite -n newtest -m 'http://root-kuscia-master:1080' -t xdeploy-t
 ![Center_Data9](../imgs/center_data9.png)
 
 
-创建训练流
+## 创建训练流
 点击“训练流”—>“创建训练流”—>输入训练流名称—>选择已有训练流模板—点击“创建”
 目前内置了“联合圈人”、“二分类建模”两种训练流模板，可根据需求自行选择。
 二分类建模：
@@ -125,7 +125,7 @@ bash install.sh lite -n newtest -m 'http://root-kuscia-master:1080' -t xdeploy-t
 ![Center_Create4](../imgs/center_create4.png)
 ![Center_Create5](../imgs/center_create5.png)
 
-组件配置
+## 组件配置
 点击组件“样本表”—选择数据表—保存配置
 注：灰色组件需要进行配置，蓝色不需要
 ![Center_Create6](../imgs/center_create6.png)
@@ -133,7 +133,7 @@ bash install.sh lite -n newtest -m 'http://root-kuscia-master:1080' -t xdeploy-t
 点击组件“隐私求交”—分别选择接收方和发送方的输入—保存配置
 ![Center_Create8](../imgs/center_create8.png)
 
-模型发布
+## 模型发布
 完成一个建模任务后，且画布中有运行成功状态的模型时，可点击模型提交进行模型打包：
 ![Center_Create9](../imgs/center_create9.png)
 
