@@ -597,7 +597,6 @@ sed -i 's/SECRETPAD_CONTAINER_NAME="${DEPLOY_USER}-kuscia-secretpad"/SECRETPAD_C
 有关将自定义Secretflow组件镜像注册到Kuscia ，请参考[注册自定义算法镜像](https://www.secretflow.org.cn/docs/kuscia/latest/zh-Hans/development/register_custom_image#id6)
 
 ⚠️**注意事项**
-
 - 使用 <span style="color: #E83E8C;"> -n secretflow-image </span> 指定注册在Kuscia中的算法镜像AppImage名称为 <span style="color: #E83E8C;">
   secretflow-image </span>。
 - 使用 <span style="color: #E83E8C;"> -i docker.io/secretflow/sf-dev-anolis8: test_compare </span> 指定打包的自定义Secretflow组件镜像。由于默认打包的镜像Repo为 docker.io，因此在导入镜像时需填写完成的镜像信息。
