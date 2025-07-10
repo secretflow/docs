@@ -117,26 +117,31 @@ kuscia     Metrics  port:  38084->9091  -x 参数
 ```
 
 ## 安装过程
- 设置机构名称
+### 设置机构名称  
+
 机构名称长度要求大于 4 位字符 ,空格将会被忽略。
 
 ![P2p_Inst](../imgs/p2p_inst.png)
 
-设置登录用户名和密码
-用户名密码设置要求：
-用户名： 长度要求大于4位字符；
- 密码： 长度要求大于8位字符，需包含大小写及特殊字符。
+### 设置登录用户名和密码
+用户名密码设置要求： 
+
+用户名： 长度要求大于4位字符； 
+
+密码： 长度要求大于8位字符，需包含大小写及特殊字符。 
+
 参考示例：
 
 ![P2p_User](../imgs/p2p_user.png)
 
-安装完成状态
+### 安装完成状态
  装输出“All components started successfully, time spend: xxx second”即为部署成功 
 
  ![P2p_Sucess](../imgs/p2p_success.png)
 
 注：点对点（P2P）模式，如果想做数据求交至少有两个节点，可以按照步骤2-4可以再部署安装另外一个节点。
-浏览器访问平台
+
+## 浏览器访问平台
 部署成功后，浏览器打开 http://localhost:secretpad 端口号（或者 http://部署服务器的ip:secretpad端口号），利用部署过程中配置的用户密码登录平台即可体验。
 
 ![Login_Img](../imgs/login_img.png)

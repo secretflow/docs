@@ -46,15 +46,19 @@ cd 部署包所在路径
 bash install.sh master
 
 ## 安装过程
-设置登录用户名和密码
-    用户名密码设置要求：
-    用户名： 长度要求大于4位字符；
+### 设置登录用户名和密码
+
+    用户名密码设置要求： 
+
+    用户名： 长度要求大于4位字符； 
+
     密码： 长度要求大于8位字符，需包含大小写及特殊字符。
+    
 参考示例：
 
 ![Center_User](../imgs/center_user.png)
 
-安装完成状态
+### 安装完成状态
 安装输出“All components started successfully, time spend: xxx second”即为部署成功 
 ## 浏览器访问平台
 部署成功后，浏览器打开 http://localhost:secretpad 端口号（或者 http://部署服务器的ip:secretpad端口号），利用部署过程中配置的用户密码登录平台即可体验。
