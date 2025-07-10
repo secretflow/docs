@@ -4,10 +4,10 @@
 可以通过以下命令获取scql的demo数据
 ```shell
 # alice的数据
-wget https://raw.githubusercontent.com/secretflow/kuscia/refs/heads/main/testdata/scql-alice.csv
+wget https://github.com/secretflow/kuscia/tree/main/tests/data/scql-alice.csv
 
 # bob的数据
-wget https://raw.githubusercontent.com/secretflow/kuscia/refs/heads/main/testdata/scql-bob.csv
+wget https://github.com/secretflow/kuscia/tree/main/tests/data/scql-bob.csv
 ```
 在添加数据时需要修改部分字段类型，如下:
 

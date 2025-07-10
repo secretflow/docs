@@ -2,8 +2,12 @@
 
 ## 下载安装包
 最新版本下载链接，（如已下载，可以跳过）：
-<ul><li>x86架构:</li><ul> [点此下载 x86_64安装包](https://secretflow-public.oss-cn-hangzhou.aliyuncs.com/mvp-packages/secretflow-allinone-linux-x86_64-v1.11.0.tar.gz) 
-<ul><li>arm架构:</li><ul> [点此下载 arm_64安装包](https://secretflow-public.oss-cn-hangzhou.aliyuncs.com/mvp-packages/secretflow-allinone-linux-aarch_64-v1.11.0.tar.gz)
+<li>x86架构:</li>
+
+[x86安装包](https://secretflow-public.oss-cn-hangzhou.aliyuncs.com/mvp-packages/secretflow-allinone-linux-x86_64-v1.11.0.tar.gz)
+<li>arm架构:</li>
+
+[arm安装包](https://secretflow-public.oss-cn-hangzhou.aliyuncs.com/mvp-packages/secretflow-allinone-linux-x86_64-v1.11.0.tar.gz)
 
 ## 部署安装包
 安装部署需要对linux操作命令有基本的了解。
