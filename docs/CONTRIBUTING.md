@@ -452,12 +452,6 @@ msgstr "你好，世界！"
 
 - `msgstr` 中可能会包含样式标记（比如字体加粗、链接等），在翻译文本中，标记应当与原文一致：
 
-  ```diff
-    msgid "This is a `link <https://example.org/>`_."
-  - msgstr "这是一个 [链接](https://example.org/) 。"
-  + msgstr "这是一个 `链接 <https://example.org/>`_ 。"
-  ```
-
 - 在[同步翻译文件](#同步翻译文件)后，你可能会留意到一些翻译条目被加上了 `fuzzy` 的标记，
   比如：
 
