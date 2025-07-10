@@ -200,12 +200,6 @@ and you should not modify them.
   retain such markups. You should ensure the markup syntax is consistent with the source
   document:
 
-  ```diff
-    msgid "This is a `link <https://example.org/>`_."
-  - msgstr "这是一个 [链接](https://example.org/) 。"
-  + msgstr "这是一个 `链接 <https://example.org/>`_ 。"
-  ```
-
 - You may notice a `fuzzy` label after
   [updating translation files](#updating-translation-files):
 
@@ -456,8 +450,7 @@ msgstr "你好，世界！"
 >
 > 以下是翻译的一些注意事项：
 
-- `msgstr` 中可能会包含样式标记（比如字体加粗、链接等），在翻译文本中，标记应当与原文一
-  致：
+- `msgstr` 中可能会包含样式标记（比如字体加粗、链接等），在翻译文本中，标记应当与原文一致：
 
   ```diff
     msgid "This is a `link <https://example.org/>`_."
