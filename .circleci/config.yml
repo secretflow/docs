@@ -1,0 +1,61 @@
+# Copyright 2025 Ant Group Co., Ltd.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+version: 2.1
+
+parameters:
+  GHA_Actor:
+    type: string
+    default: ""
+  GHA_Action:
+    type: string
+    default: ""
+  GHA_Event:
+    type: string
+    default: ""
+  GHA_Meta:
+    type: string
+    default: ""
+
+jobs:
+  docs_publish:
+    docker:
+      - image: cimg/python:3.10-node
+    shell: /bin/bash --login -eo pipefail
+    steps:
+      - checkout
+      - run:
+          name: Build docs and publish
+          command: |
+            set -ex
+            cd docs
+            export DOCTOOLS_PUBLISH_NPM_TOKEN=${DOCTOOLS_PUBLISH_NPM_TOKEN}
+            sudo apt-get update && sudo apt install -y git
+            python3 -m venv ~/.venv/docs
+            source ~/.venv/docs/bin/activate
+            python -m pip install -r requirements.txt
+            secretflow-doctools build --lang zh_CN --mapped-path "docs:all-in-one:secretpad-all-in-one:."
+            secretflow-doctools publish \
+              --name @secretflow/x-docs \
+              --index-js docs/_build/esm/index.js
+
+workflows:
+  build-deploy:
+    jobs:
+      - docs_publish:
+          filters:
+            branches:
+              only: main
+            tags:
+              only: /^v.*/
