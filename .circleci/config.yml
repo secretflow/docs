@@ -40,6 +40,7 @@ jobs:
           command: |
             set -ex
             cd docs
+            export DRY_RUN=0
             export DOCTOOLS_PUBLISH_NPM_TOKEN=${DOCTOOLS_PUBLISH_NPM_TOKEN}
             sudo apt-get update && sudo apt install -y git
             python3 -m venv ~/.venv/docs
@@ -48,7 +49,7 @@ jobs:
             secretflow-doctools build --lang zh_CN --mapped-path "docs:all-in-one:secretpad-all-in-one:."
             secretflow-doctools publish \
               --name @secretflow/x-docs \
-              --index-js docs/_build/esm/index.js
+              --index-js _build/esm/index.js
 
 workflows:
   build-deploy:
