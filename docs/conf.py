@@ -1,10 +1,10 @@
-# Copyright 2025 Ant Group Co., Ltd.
+# Copyright 2023 Ant Group Co., Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#   http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -12,143 +12,136 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sys
-from pathlib import Path
 
-# make ../secretflow importable for sphinx.ext.autodoc
-# https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#ensuring-the-code-can-be-imported
-sys.path.insert(0, str(Path(__file__).parent.parent.resolve()))
+# Configuration file for the Sphinx documentation builder.
+#
+# This file only contains a selection of the most common options. For a full
+# list see the documentation:
+# https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-project = "SecretFlow"
+# -- Path setup --------------------------------------------------------------
 
+# If extensions (or modules to document with autodoc) are in another directory,
+# add these directories to sys.path here. If the directory is relative to the
+# documentation root, use os.path.abspath to make it absolute, like shown here.
+#
+# import os
+# import sys
+# sys.path.insert(0, os.path.abspath('.'))
+
+import os.path
+
+# -- Project information -----------------------------------------------------
+
+project = ' secretpad all in one docs'
+copyright = '2023 Ant Group Co., Ltd.'
+author = 'docs authors'
+
+# -- General configuration ---------------------------------------------------
+
+# Add any Sphinx extension module names here, as strings. They can be
+# extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
+# ones.
 extensions = [
-    "autodocsumm",
-    # enable support for .md and .ipynb files
-    # https://myst-nb.readthedocs.io/en/latest/
-    "myst_nb",
-    "secretflow_doctools",
-    "sphinx_design",
-    # API docs
-    # https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html
-    "sphinx.ext.autodoc",
-    # link to titles using :ref:`Title text`
-    # https://www.sphinx-doc.org/en/master/usage/extensions/autosectionlabel.html
-    "sphinx.ext.autosectionlabel",
-    "sphinx.ext.extlinks",
-    "sphinx.ext.graphviz",
-    # link to other Python projects
-    # https://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html
-    "sphinx.ext.intersphinx",
-    "sphinx.ext.napoleon",
-    "sphinx.ext.todo",
+    'sphinx.ext.napoleon',
+    'sphinx.ext.autodoc',
+    'sphinx.ext.graphviz',
+    'sphinx.ext.todo',
+    'sphinx.ext.viewcode',
+    'sphinx.ext.extlinks',
+    'sphinx.ext.autosectionlabel',
+    'myst_parser',
+    "nbsphinx",
+    'sphinxcontrib.actdiag',
+    'sphinxcontrib.blockdiag',
+    'sphinxcontrib.nwdiag',
+    'sphinxcontrib.packetdiag',
+    'sphinxcontrib.rackdiag',
+    'sphinxcontrib.seqdiag',
+    'sphinx_design',
 ]
 
-# also link to titles using :ref:`path/to/document:Title text`
-# (note that path should not have a leading slash)
-# https://www.sphinx-doc.org/en/master/usage/extensions/autosectionlabel.html#confval-autosectionlabel_prefix_document
+nbsphinx_requirejs_path = ''
+
+# Make sure the target is unique
 autosectionlabel_prefix_document = True
 
-# source files are in this language
-language = "en"
-# translation files are in this directory
-locale_dirs = ["./locales/"]
-# this should be false so 1 doc file corresponds to 1 translation file
-gettext_compact = False
-gettext_uuid = False
-# allow source texts to keep using outdated translations if they are only marginally changed
-# otherwise any change to source text will cause their translations to not appear
-gettext_allow_fuzzy_translations = True
+# Add any paths that contain templates here, relative to this directory.
+templates_path = ['_templates']
 
-# list of patterns, relative to source directory, that match files and
+# List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = [
-    "CONTRIBUTING.md",  # prevent CONTRIBUTING.md from being included in output, optional
-    ".venv",
-    "_build",
-    "Thumbs.db",
-    ".DS_Store",
-]
+# This pattern also affects html_static_path and html_extra_path.
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-intersphinx_mapping = {
-    "numpy": ("https://numpy.org/doc/stable/", None),
-    "python": ("https://docs.python.org/3/", None),
-    "pandas": ("https://pandas.pydata.org/pandas-docs/dev", None),
-    "tensorflow": (
-        "https://www.tensorflow.org/api_docs/python",
-        "https://github.com/GPflow/tensorflow-intersphinx/raw/master/tf2_py_objects.inv",
-    ),
-    "sklearn": (
-        "https://scikit-learn.org/stable",
-        (None, "./_intersphinx/sklearn-objects.inv"),
-    ),
-}
-
+# Enable TODO
 todo_include_todos = True
 
-# https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#confval-autodoc_default_options
-autodoc_default_options = {
-    "members": True,
-    "member-order": "bysource",
-    "special-members": "__init__",
-    "undoc-members": False,
-    "show-inheritance": False,
+# -- Options for HTML output -------------------------------------------------
+
+# The theme to use for HTML and HTML Help pages.  See the documentation for
+# a list of builtin themes.
+#
+html_theme = 'pydata_sphinx_theme'
+
+# Add any paths that contain custom static files (such as style sheets) here,
+# relative to this directory. They are copied after the builtin static files,
+# so a file named "default.css" will overwrite the builtin "default.css".
+html_static_path = ['_static']
+
+html_favicon = '_static/favicon.ico'
+
+html_css_files = [
+    'css/custom.css',
+]
+
+html_js_files = ['js/custom.js']
+
+html_theme_options = {
+    "icon_links": [
+        {
+            "name": "GitHub",
+            "url": "",
+            "icon": "fab fa-github-square",
+            "type": "fontawesome",
+        },
+    ],
+    "logo": {
+        "text": "docs",
+    },
 }
 
-# https://myst-parser.readthedocs.io/en/latest/syntax/optional.html
 myst_enable_extensions = [
-    # LaTeX math
-    # https://myst-parser.readthedocs.io/en/latest/syntax/optional.html#direct-latex-math
     "amsmath",
-    # attributes
-    # https://myst-parser.readthedocs.io/en/latest/syntax/optional.html#attributes
-    "attrs_block",
-    "attrs_inline",
-    # code fence using :::
-    # https://myst-parser.readthedocs.io/en/latest/syntax/optional.html#code-fences-using-colons
     "colon_fence",
-    # $math$ and $$math$$
-    # https://myst-parser.readthedocs.io/en/latest/syntax/optional.html#dollar-delimited-math
+    "deflist",
     "dollarmath",
-    # :name: value
-    # https://myst-parser.readthedocs.io/en/latest/syntax/optional.html#field-lists
     "fieldlist",
-    # <img src="...">
-    # https://myst-parser.readthedocs.io/en/latest/syntax/optional.html#html-images
+    "html_admonition",
     "html_image",
-    # detect "bare" links
-    # https://myst-parser.readthedocs.io/en/latest/syntax/optional.html#linkify
     "linkify",
-    # "double quotes" => “double quotes”
-    # https://myst-parser.readthedocs.io/en/latest/syntax/optional.html#typography
+    "replacements",
     "smartquotes",
-    # ~~strikethrough~~
-    # https://myst-parser.readthedocs.io/en/latest/syntax/optional.html#strikethrough
     "strikethrough",
+    "substitution",
+    "tasklist",
+    "attrs_inline",
+    "attrs_block",
 ]
-# enable all MyST syntax features
-# https://myst-parser.readthedocs.io/en/latest/configuration.html#global-configuration
+
+suppress_warnings = ["myst.header"]
+
 myst_gfm_only = False
-# generate #anchors for heading # through ######
-# https://myst-parser.readthedocs.io/en/latest/syntax/optional.html#auto-generated-header-anchors
-myst_heading_anchors = 6
+myst_heading_anchors = 1
+myst_title_to_header = True
 
-# https://myst-nb.readthedocs.io/en/latest/configuration.html
-# don't re-execute notebooks during build
-nb_execution_mode = "off"
-nb_mime_priority_overrides = [
-    # allow images and static HTML content to appear in the build output
-    ("mdx", "text/html", 10),
-    ("mdx", "image/svg+xml", 20),
-    ("mdx", "image/png", 21),
-    ("mdx", "image/jpeg", 22),
-    ("mdx", "image/gif", 23),
-    ("mdx", "text/markdown", 30),
-    ("mdx", "text/plain", 31),
-    ("mdx", "text/latex", 32),
-    # omit interactive content from the build output
-    ("mdx", "application/javascript", None),
-    ("mdx", "application/vnd.jupyter.widget-view+json", None),
-    ("mdx", "application/vnd.code.notebook.error", None),
-]
 
-suppress_warnings = ["autosectionlabel", "myst.header"]
+# app setup hook
+def setup(app):
+    app.add_config_value(
+        'recommonmark_config',
+        {
+            'auto_toc_tree_section': 'Contents',
+        },
+        True,
+    )
